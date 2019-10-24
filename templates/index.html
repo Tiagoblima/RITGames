@@ -22,11 +22,7 @@
 
   <!-- Custom styles for this template -->
   <link href="../static/css/agency.min.css" rel="stylesheet">
-    <style>
-        a{
-            text-decoration: None;
-        }
-    </style>
+
 </head>
 
 <body id="page-top">
@@ -93,7 +89,7 @@
           <span class="fa-stack fa-4x">
           <i class="fa fa-share"></i>
           </span>
-          <h4 class="service-heading"><button class="btn btn-outline-dark">Faça o login</button></h4>
+          <h4 class="service-heading"><button class="btn btn-outline-dark" data-toggle="modal" data-target="#loginModalCenter">Faça o login</button></h4>
           <p class="text-muted">a cada rodada</p>
         </div>
         <div class="col-md-4">
@@ -424,7 +420,7 @@
     </div>
   </footer>
 
-  <!-- Portfolio Modals -->
+
 
   <!-- Form Modal -->
     <div class="modal fade" id="formModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -486,12 +482,51 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Cadastrar-se</button>
+            <button type="submit" class="btn btn-success">Cadastrar-se</button>
           </div>
         </div>
       </div>
     </div>
 
+   <!-- Login Modal -->
+    <div class="modal fade" id="loginModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Entre para começar!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+             <div class="container align-content-center">
+
+                <form class="row">
+
+                 <div class="row">
+
+                    <div class="col-6">
+                        <label for="inputLogin" class="font-weight-bold">Login</label>
+                        <input type="text" class="form-control">
+                    </div>
+
+                     <div class="col-6">
+                         <label for="inputPassword1" class="font-weight-bold">Senha</label>
+                         <input type="password" class="form-control" id="inputPassword">
+                     </div>
+                     </div>
+
+                </form>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success">Entrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+ <!-- Portfolio Modals -->
   <!-- Modal 1 -->
   <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
