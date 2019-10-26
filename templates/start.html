@@ -105,7 +105,7 @@
          First Name Second Name
          exemple@server.com
          </div>
-            <button class="btn btn-outline-primary float-left">Alterar Cadastro</button>
+            <button class="btn btn-outline-primary float-left" data-toggle="modal" data-target="#editModalCenter">Alterar Cadastro</button>
             <button class="btn btn-outline-success float-right">Perfil Developer</button>
         </div>
         <div class="col-md-4">
@@ -390,7 +390,7 @@
 
 
   <!-- Form Modal -->
-    <div class="modal fade" id="formModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -406,41 +406,39 @@
 
                  <div class="row">
 
+                     <div class="col-6">
+                          <label class="sr-only" for="inputUsername">Username</label>
+                          <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">@</div>
+                            </div>
+                            <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+                          </div>
+                     </div>
+
                     <div class="col-6">
-                        <label for="inputFirstName" class="font-weight-bold">Primeiro Nome</label>
-                      <input id="inputFirstName" type="text" class="form-control" placeholder="">
+                      <button type="button" class="btn btn-secondary btn-sm">Alterar Login</button>
                     </div>
 
-                    <div class="col-6">
-                        <label for="inputLastName" class="font-weight-bold">Último Nome</label>
-                      <input type="text" id="inputLastName" class="form-control">
-                    </div>
+                     <div class="col-6">
+                         <label class="sr-only" for="inputEmail">E-mail</label>
+                          <input type="text" class="form-control" id="inputEmail" placeholder="E-mail">
+                     </div>
 
-                   <div class="col-6">
-                       <label for="exampleInputEmail1" class="font-weight-bold">E-mail:</label>
-                       <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp">
-                   </div>
-
-                    <div class="col-6">
-                        <label for="inputLogin" class="font-weight-bold">Crie um login</label>
-                        <input type="text" class="form-control">
+                     <div class="col-6">
+                      <button type="button" class="btn btn-secondary btn-sm">Alterar E-mail</button>
                     </div>
 
                      <div class="col-6">
                          <label for="inputPassword1" class="font-weight-bold">Crie uma Senha</label>
                          <input type="password" class="form-control" id="inputPassword1">
+                         <br>
+                         <button type="button" class="float-left btn btn-secondary btn-sm">Alterar Senha</button>
                      </div>
                      <div class="col-6">
                          <label for="inputPassword1" class="font-weight-bold">Confirme a Senha</label>
                          <input type="password" class="form-control" id="inputPassword1">
                       </div>
-
-                     <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                      <input type="checkbox" class="custom-control-input" id="customControlInline">
-                     <label class="custom-control-label" for="customControlInline">Concordo com os termos do RITGames</label>
-                         <br>
-                         <a href="#" class="badge badge-pill badge-primary text-white">Nossos termos</a>
-                    </div>
 
                      </div>
 
@@ -449,7 +447,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success">Cadastrar-se</button>
+            <button type="submit" class="btn btn-success">Salvar</button>
           </div>
         </div>
       </div>
