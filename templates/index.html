@@ -449,14 +449,25 @@
                       <input type="text" id="inputLastName" class="form-control">
                     </div>
 
-                    <div class="col-6">
-                       <label for="exampleInputEmail1" class="font-weight-bold">E-mail:</label>
-                       <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp">
-                    </div>
+                   <div class="col-6">
+                      <label for="validationServerEmail" class="font-weight-bold">E-mail</label>
+                      <input type="text" class="form-control" id="validationServerEmail" placeholder="E-mail" required>
+                      <div class="invalid-feedback">
+                         Por favor escolha um e-mail que não tenha sido usado.
+                      </div>
+                   </div>
 
-                    <div class="col-6">
-                        <label for="inputLogin" class="font-weight-bold">Crie um login</label>
-                        <input type="text" class="form-control">
+                     <div class="col-6">
+                      <label for="validationServerUsername" class="font-weight-bold">Username</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="inputGroupPrepend3">@</span>
+                        </div>
+                        <input type="text" class="form-control" id="validationServerUsername" placeholder="Username" aria-describedby="inputGroupPrepend3" required>
+                        <div class="invalid-feedback">
+                          Por favor escolha um username que não tenha sido usado.
+                        </div>
+                      </div>
                     </div>
 
                      <div class="col-6">
@@ -632,6 +643,8 @@
   <!-- Custom scripts for this template -->
   <script src="../static/js/agency.min.js"></script>
 
+   <!-- Custom script-->
+  <script src="../static/js/custom.js"></script>
 </body>
 
 </html>
