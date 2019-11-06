@@ -75,6 +75,18 @@
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Games</h2>
           <h3 class="section-subheading text-muted">Conecte-se e aperte o <i>play</i>.</h3>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-success" role="alert">
+                 {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </div>
+
+            {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
         </div>
       </div>
       <div class="row text-center">
@@ -435,7 +447,7 @@
           <div class="modal-body">
              <div class="container align-content-center">
 
-                <form action="" method="post" class="row" novalidate>
+                <form action="/index.html" method="post" class="row" novalidate>
                     {{ form.hidden_tag() }}
                  <div class="row">
 
@@ -452,9 +464,9 @@
                    <div class="col-6">
                       <label for="inputEmail" class="font-weight-bold">E-mail</label>
                        {{ form.email(type="text", class="form-control", id="inputEmail", placeholder="E-mail") }}
-                      <div class="invalid-feedback">
-                         Por favor escolha um e-mail que não tenha sido usado.
-                      </div>
+                        {% for error in form.email.errors %}
+                            <span class="alert-danger">{{ error + '*'}}</span>
+                         {% endfor %}
                    </div>
 
                      <div class="col-6">
@@ -468,11 +480,17 @@
                           Por favor escolha um username que não tenha sido usado.
                         </div>
                       </div>
+                          {% for error in form.username.errors %}
+                            <span class="alert-danger">{{ error + '*'}}</span>
+                          {% endfor %}
                     </div>
 
                      <div class="col-6">
                          <label for="inputPassword1" class="font-weight-bold">Crie uma Senha</label>
                          {{ form.password(type="password", class="form-control", id="inputPassword1") }}
+                         {% for error in form.password.errors %}
+                            <span class="alert-danger">{{ error + '*'}}</span>
+                         {% endfor %}
                      </div>
 
                      <div class="col-6">
@@ -489,14 +507,14 @@
                     </div>
 
                  </div>
-
+                  <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            {{ form.submit(type="submit", class="btn btn-success", id='Cadastrar') }}
+                  </div>
                 </form>
               </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success">Cadastrar-se</button>
-          </div>
+
         </div>
       </div>
     </div>

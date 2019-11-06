@@ -1,7 +1,8 @@
-from flask import Flask, url_for
+from flask import Flask, url_for, flash, redirect, request
 from flask import render_template
 from config import Config
-from forms import Form
+from forms import RegistrationForm
+
 app = Flask(__name__, template_folder='templates')
 app.config.from_object(Config)
 
@@ -11,9 +12,13 @@ def run_start():
     return index()
 
 
-@app.route('/index.html')
+@app.route('/index.html', methods=['GET', 'POST'])
 def index(name=None):
-    form = Form()
+    form = RegistrationForm(request.form)
+    if form.validate_on_submit() and form.validate():
+        flash("Cadastro Realizado com sucesso!")
+        return redirect('/index.html')
+    print(form.validate())
     return render_template('index.html', form=form)
 
 
