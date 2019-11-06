@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Email, EqualTo
 
 
 class RegistrationForm(FlaskForm):
@@ -16,3 +16,31 @@ class RegistrationForm(FlaskForm):
     confirm_pass = PasswordField('inputPassword2', validators=[DataRequired(message='Campo Obrigatório')])
     agree = BooleanField('Agree')
     submit = SubmitField('Cadastrar')
+
+
+class User:
+
+    name = ''
+    username = ''
+    email = ''
+    password = ''
+    msg = ''
+    
+    def __init__(self, name, username, email, password):
+        self.name = name
+        self.username = username
+        self.email = email
+        self.password = password
+    
+    def set_username(self, username):
+        self.username = username
+      
+    def set_msg(self, msg):
+        self.msg = msg
+
+    def set_email(self, email):
+        self.email = email
+
+    def set_password(self, password):
+        self.password = password
+
