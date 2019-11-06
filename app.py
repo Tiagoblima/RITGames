@@ -1,17 +1,20 @@
 from flask import Flask, url_for
 from flask import render_template
-
+from config import Config
+from forms import Form
 app = Flask(__name__, template_folder='templates')
+app.config.from_object(Config)
 
 
 @app.route('/')
-def run_start(name=None):
+def run_start():
     return index()
 
 
 @app.route('/index.html')
 def index(name=None):
-    return render_template('index.html', name=name)
+    form = Form()
+    return render_template('index.html', form=form)
 
 
 @app.route('/start.html')

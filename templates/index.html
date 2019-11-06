@@ -435,23 +435,23 @@
           <div class="modal-body">
              <div class="container align-content-center">
 
-                <form class="row">
-
+                <form action="" method="post" class="row" novalidate>
+                    {{ form.hidden_tag() }}
                  <div class="row">
 
                     <div class="col-6">
                         <label for="inputFirstName" class="font-weight-bold">Primeiro Nome</label>
-                      <input id="inputFirstName" type="text" class="form-control" placeholder="">
+                        {{ form.first_name(type='text', class='form-control', id='inputFirstName') }}
                     </div>
 
                     <div class="col-6">
                         <label for="inputLastName" class="font-weight-bold">Último Nome</label>
-                      <input type="text" id="inputLastName" class="form-control">
+                        {{ form.last_name(type="text", id="inputLastName", class="form-control") }}
                     </div>
 
                    <div class="col-6">
-                      <label for="validationServerEmail" class="font-weight-bold">E-mail</label>
-                      <input type="text" class="form-control" id="validationServerEmail" placeholder="E-mail" required>
+                      <label for="inputEmail" class="font-weight-bold">E-mail</label>
+                       {{ form.email(type="text", class="form-control", id="inputEmail", placeholder="E-mail") }}
                       <div class="invalid-feedback">
                          Por favor escolha um e-mail que não tenha sido usado.
                       </div>
@@ -463,7 +463,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="inputGroupPrepend3">@</span>
                         </div>
-                        <input type="text" class="form-control" id="validationServerUsername" placeholder="Username" aria-describedby="inputGroupPrepend3" required>
+                        {{ form.username(type="text", class="form-control", id="inputUsername", placeholder="Username") }}
                         <div class="invalid-feedback">
                           Por favor escolha um username que não tenha sido usado.
                         </div>
@@ -472,17 +472,18 @@
 
                      <div class="col-6">
                          <label for="inputPassword1" class="font-weight-bold">Crie uma Senha</label>
-                         <input type="password" class="form-control" id="inputPassword1">
+                         {{ form.password(type="password", class="form-control", id="inputPassword1") }}
                      </div>
 
                      <div class="col-6">
                          <label for="inputPassword1" class="font-weight-bold">Confirme a Senha</label>
-                         <input type="password" class="form-control" id="inputPassword1">
+                         {{form.confirm_pass(type="password", class="form-control", id="inputPassword2")}}
                       </div>
 
-                      <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                      <input type="checkbox" class="custom-control-input" id="customControlInline">
-                      <label class="custom-control-label" for="customControlInline">Concordo com os termos do RITGames</label>
+
+                      <div class="custom-control custom-checkbox mr-sm-2" >
+                          {{ form.agree(type="checkbox", class="custom-control-input", id="Agree") }}
+                          <label class="custom-control-label" for="Agree">Concordo com os termos do RITGames</label>
                       <br>
                       <a href="#" class="badge badge-pill badge-primary text-white">Nossos termos</a>
                     </div>
