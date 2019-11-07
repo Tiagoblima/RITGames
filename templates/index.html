@@ -447,7 +447,7 @@
           <div class="modal-body">
              <div class="container align-content-center">
 
-                <form action="/index.html" method="post" class="row" novalidate>
+                <form action="/index.html" method="post" class="row">
                     {{ form.hidden_tag() }}
                  <div class="row">
 
@@ -532,31 +532,31 @@
           <div class="modal-body">
              <div class="container align-content-center">
 
-                <form class="row">
+                <form class="row" action="/start.html" method="post" novalidate>
 
                  <div class="row">
 
                     <div class="col-6">
                         <label for="inputLogin" class="font-weight-bold">Login</label>
-                        <input type="text" class="form-control">
+                        {{ login.username(type='text', class='form-control', id='inputLogin') }}
                     </div>
 
                      <div class="col-6">
                          <label for="inputPassword1" class="font-weight-bold">Senha</label>
-                         <input type="password" class="form-control" id="inputPassword">
+                         {{ login.password(type="password", class="form-control", id="inputPassword") }}
                           <br>
                          <a href="#" class="badge badge-pill badge-primary text-white float-right">Esqueceu a senha?</a>
                      </div>
 
                      </div>
-
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        {{ login.submit(type="submit", class="btn btn-success", id='Login') }}
+                    </div>
                 </form>
               </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success">Entrar</button>
-          </div>
+
         </div>
       </div>
     </div>
