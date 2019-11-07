@@ -32,6 +32,7 @@ class User:
     email = ''
     password = ''
     msg = ''
+    dashboard = None
 
     def __init__(self, name='', username='', email='', password=''):
         self.name = name

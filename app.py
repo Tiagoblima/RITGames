@@ -43,5 +43,10 @@ def start(name=None):
     return render_template('start.html', user=user)
 
 
+@app.route('/dev.html')
+def dev():
+    return render_template('dev.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
