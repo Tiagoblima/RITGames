@@ -54,4 +54,7 @@ class User:
 
     def to_json(self):
         with open('data_user.json', 'w', encoding='utf-8') as f:
-            return json.dump(self.__dict__, f, ensure_ascii=False, indent=4)
+            json.dump(self.__dict__, f, ensure_ascii=False, indent=4)
+
+    def set_dashboard(self, dashboard):
+        self.dashboard = dashboard
