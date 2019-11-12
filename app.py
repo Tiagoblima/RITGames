@@ -4,6 +4,7 @@ from flask import Flask, url_for, flash, redirect, request
 from flask import render_template
 from config import Config
 from forms import RegistrationForm, User, LoginForm
+from connection import Connection
 import json
 
 app = Flask(__name__, template_folder='templates')
@@ -24,7 +25,12 @@ def index(name=None):
                     form.username.data,
                     form.email.data,
                     form.password.data)
-        data_user = user.to_json()
+        user.to_json()
+        with open('data_user.json') as f_user:
+            user_json = json.load(f_user)
+
+        conn = Connection()
+        conn.send_obj(user_json)
 
     if not form.validate() and form.is_submitted():
         flash("Cadastro não pôde ser realizado, verifique os campos.")
@@ -37,6 +43,7 @@ def index(name=None):
 def start(name=None):
     with open('data_user.json') as f_user:
         data_user = json.load(f_user)
+
     pprint(data_user)
     user = User(data_user['name'], data_user['username'], data_user['email'], data_user['password'])
 
