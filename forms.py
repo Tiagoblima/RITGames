@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired, Email, EqualTo
 
 
 class RegistrationForm(FlaskForm):
+    tipo = 'registrationForm'
     first_name = StringField('inputFirstName')
     last_name = StringField('inputLastName')
     email = StringField('inputEmail', validators=[DataRequired(message='Campo Obrigatório'), Email('E-mail inválido')])
@@ -21,12 +22,21 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
+    tipo = 'loginForm'
     username = StringField('inputLogin', validators=[DataRequired(message='Campo Obrigatório')])
     password = PasswordField('inputPassword', validators=[DataRequired(message='Campo Obrigatório')])
     submit = SubmitField('Login')
 
+    def to_json(self):
+        str_json =  '{\"tipo\":\"' + self.tipo + '\",\"username\":\"' + self.username.data + '\",\"password\":\"' \
+                   + self.password.data + '\"}'
+        # str_json.replace("'", "\"")
+
+        return str_json
+
 
 class User:
+    tipo = 'user'
     name = ''
     username = ''
     email = ''
@@ -35,6 +45,7 @@ class User:
     dashboard = None
 
     def __init__(self, name='', username='', email='', password=''):
+        self.tipo = 'user'
         self.name = name
         self.username = username
         self.email = email
