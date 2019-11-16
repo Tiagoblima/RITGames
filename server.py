@@ -15,10 +15,12 @@ while True:
 
     print('received {} bytes from {}'.format(
         len(data), address))
-    
+    print(data.decode('utf8'))
     data = json.loads(data.decode('utf8'))
     s = json.dumps(data, indent=4, sort_keys=True)
+
+    with open('data_user.json', 'w', encoding='utf-8') as f:
+        json.dump(s, f, ensure_ascii=False, indent=4)
     if data:
-        sent = sock.sendto(data, address)
-        print('sent {} bytes back to {}'.format(
-            sent, address))
+        sent = sock.sendto(bytearray(str(data), encoding='utf8'), address)
+        print('sent {} bytes back to {}'.format(sent, address))

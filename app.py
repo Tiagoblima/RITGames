@@ -25,12 +25,9 @@ def index(name=None):
                     form.username.data,
                     form.email.data,
                     form.password.data)
-        user.to_json()
-        with open('data_user.json') as f_user:
-            user_json = json.load(f_user)
 
         conn = Connection()
-        conn.send_obj(user_json)
+        conn.send_obj(user.to_json())
 
     if not form.validate() and form.is_submitted():
         flash("Cadastro não pôde ser realizado, verifique os campos.")
@@ -42,9 +39,10 @@ def index(name=None):
 @app.route('/start.html', methods=['GET', 'POST'])
 def start(name=None):
     with open('data_user.json') as f_user:
-        data_user = json.load(f_user)
+        data_user = json.loads(f_user)
 
     pprint(data_user)
+
     user = User(data_user['name'], data_user['username'], data_user['email'], data_user['password'])
 
     return render_template('start.html', user=user)

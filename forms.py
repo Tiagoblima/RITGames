@@ -53,8 +53,7 @@ class User:
         self.password = password
 
     def to_json(self):
-        with open('data_user.json', 'w', encoding='utf-8') as f:
-            json.dump(self.__dict__, f, ensure_ascii=False, indent=4)
+        return json.dumps(self.__dict__, indent=4, separators=(',', ': '))
 
     def set_dashboard(self, dashboard):
         self.dashboard = dashboard
