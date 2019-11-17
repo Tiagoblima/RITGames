@@ -31,7 +31,7 @@ class Server:
             data, address = self._listener.recvfrom(source_port)
             self._source_address = address
             print('received {} bytes from {}'.format(len(data), address))
-            str_data = str(data, encoding='utf8').replace('b', '')
+            str_data = str(data, encoding='utf8')
 
             self.data = json.loads(str_data)
             s = json.dumps(self.data, indent=4, sort_keys=True)
@@ -55,12 +55,12 @@ while True:
     listener = Server(('localhost', 9000))
     data = listener.listen(5005)
 
-    valid_json_string = "[" + data + "]"  # or "[{0}]".format(your_string)
     data_dic = json.loads(data)
-    print(data_dic)
-    if data_dic['tipo'] is 'loginForm':
-        with open('data_user', 'r') as file:
-            data = file.read()
+    print(int(data_dic['tipo']) is 2)
+    if int(data_dic['tipo']) is 2:
 
-    sender = Server(('localhost', 9000))
-    sender.sent(data)
+        with open('data_user.json', 'r') as file:
+            user = file.read()
+            print(user)
+            sender = Server(('localhost', 9000))
+            sender.sent(user)
