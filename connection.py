@@ -34,12 +34,12 @@ class Connection:
     def set_origin_port(self, port):
         self._source_port = port
 
-    def listening(self):
+    def listening(self, port=1024):
 
         self.recv_sock.bind((self._source_ip, int(self._source_port)))
 
         while True:
-            data, addr = self.recv_sock.recvfrom(1024)  # buffer size is 1024 bytes
+            data, addr = self.recv_sock.recvfrom(port)  # buffer size is 1024 bytes
             self.recv_sock.close()
             return data
 

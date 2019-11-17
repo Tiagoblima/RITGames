@@ -28,7 +28,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
     def to_json(self):
-        str_json = '{\"tipo\":\"' + str(self.tipo) + '\",\"username\":\"' + self.username.data + '\",\"password\":\"' \
+        str_json = '{\"type\":\"' + str(self.tipo) + '\",\"username\":\"' + self.username.data + '\",\"password\":\"' \
                    + self.password.data + '\"}'
         # str_json.replace("'", "\"")
 
@@ -36,7 +36,7 @@ class LoginForm(FlaskForm):
 
 
 class User:
-    tipo = 'user'
+    type = 1
     name = ''
     username = ''
     email = ''
@@ -45,7 +45,7 @@ class User:
     dashboard = None
 
     def __init__(self, name='', username='', email='', password=''):
-        self.tipo = 'user'
+        self.type = 1
         self.name = name
         self.username = username
         self.email = email
