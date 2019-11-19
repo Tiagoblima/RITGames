@@ -32,13 +32,14 @@ class Server:
             self._source_address = address
             print('received {} bytes from {}'.format(len(data), address))
             str_data = str(data, encoding='utf8')
-
+            print(str_data)
             self.data = json.loads(str_data)
+
             s = json.dumps(self.data, indent=4, sort_keys=True)
             self._listener.close()
             return s
 
-    def sent(self, str_data, dst_address=('localhost', 5005)):
+    def send(self, str_data, dst_address=('localhost', 5005)):
         self._dst_address = dst_address
         if str_data:
             # Bind the socket to the port
@@ -53,14 +54,18 @@ class Server:
 
 while True:
     listener = Server(('localhost', 9000))
-    data = listener.listen(5005)
+    data = listener.listen(9000)
 
     data_dic = json.loads(data)
-    print(int(data_dic['tipo']) is 2)
-    if int(data_dic['tipo']) is 2:
+    print(int(data_dic['type']) is 2)
+    if int(data_dic['type']) is 2:
 
         with open('data_user.json', 'r') as file:
             user = file.read()
             print(user)
             sender = Server(('localhost', 9000))
-            sender.sent(user)
+            sender.send(user)
+    elif int(data_dic['type']) is 1:
+
+        with open('data_user.json', 'w') as file:
+            user = file.write(data)

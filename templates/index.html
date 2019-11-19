@@ -94,7 +94,7 @@
           <span class="fa-stack fa-4x">
             <i class="fa fa-user-plus" aria-hidden="true"></i>
           </span>
-          <h4 class="service-heading"><button class="btn btn-outline-dark" data-toggle="modal" data-target="#formModalCenter">Seja um RITer</button> </h4>
+          <h4 class="service-heading"><button class="btn btn-outline-dark" id="btnForm" data-toggle="modal" data-target="#formModalCenter">Seja um RITer</button> </h4>
           <p class="text-muted">Divirta-se</p>
         </div>
         <div class="col-md-4">
@@ -512,6 +512,7 @@
                             {{ form.submit(type="submit", class="btn btn-success", id='Cadastrar') }}
                   </div>
                 </form>
+
               </div>
           </div>
 
@@ -532,7 +533,7 @@
           <div class="modal-body">
              <div class="container align-content-center">
 
-                <form class="row" action="/index.html" method="post" novalidate>
+                <form class="row" action="/start" method="post" novalidate>
 
                  <div class="row">
 
