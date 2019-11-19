@@ -75,6 +75,18 @@
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Games</h2>
           <h3 class="section-subheading text-muted">Conecte-se e aperte o <i>play</i>.</h3>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-info" role="alert">
+                 {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </div>
+
+            {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
         </div>
       </div>
       <div class="row text-center">
@@ -82,7 +94,7 @@
           <span class="fa-stack fa-4x">
             <i class="fa fa-user-plus" aria-hidden="true"></i>
           </span>
-          <h4 class="service-heading"><button class="btn btn-outline-dark" data-toggle="modal" data-target="#formModalCenter">Seja um RITer</button> </h4>
+          <h4 class="service-heading"><button class="btn btn-outline-dark" id="btnForm" data-toggle="modal" data-target="#formModalCenter">Seja um RITer</button> </h4>
           <p class="text-muted">Divirta-se</p>
         </div>
         <div class="col-md-4">
@@ -256,8 +268,8 @@
         <div class="col-sm-4">
           <div class="team-member">
             <img class="mx-auto rounded-circle" src="../static/img/about/1.jpg" alt="">
-            <h4>Iury Nascimento</h4>
-            <p class="text-muted">Lead Designer</p>
+            <h4>Iury Tavares</h4>
+            <p class="text-muted">BD Designer</p>
             <ul class="list-inline social-buttons">
               <li class="list-inline-item">
                 <a href="#">
@@ -435,26 +447,26 @@
           <div class="modal-body">
              <div class="container align-content-center">
 
-                <form class="row">
-
+                <form action="/index.html" method="post" class="row">
+                    {{ form.hidden_tag() }}
                  <div class="row">
 
                     <div class="col-6">
                         <label for="inputFirstName" class="font-weight-bold">Primeiro Nome</label>
-                      <input id="inputFirstName" type="text" class="form-control" placeholder="">
+                        {{ form.first_name(type='text', class='form-control', id='inputFirstName') }}
                     </div>
 
                     <div class="col-6">
                         <label for="inputLastName" class="font-weight-bold">Último Nome</label>
-                      <input type="text" id="inputLastName" class="form-control">
+                        {{ form.last_name(type="text", id="inputLastName", class="form-control") }}
                     </div>
 
                    <div class="col-6">
-                      <label for="validationServerEmail" class="font-weight-bold">E-mail</label>
-                      <input type="text" class="form-control" id="validationServerEmail" placeholder="E-mail" required>
-                      <div class="invalid-feedback">
-                         Por favor escolha um e-mail que não tenha sido usado.
-                      </div>
+                      <label for="inputEmail" class="font-weight-bold">E-mail</label>
+                       {{ form.email(type="text", class="form-control", id="inputEmail", placeholder="E-mail") }}
+                        {% for error in form.email.errors %}
+                            <span class="alert-danger">{{ error + '*'}}</span>
+                         {% endfor %}
                    </div>
 
                      <div class="col-6">
@@ -463,39 +475,47 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="inputGroupPrepend3">@</span>
                         </div>
-                        <input type="text" class="form-control" id="validationServerUsername" placeholder="Username" aria-describedby="inputGroupPrepend3" required>
+                        {{ form.username(type="text", class="form-control", id="inputUsername", placeholder="Username") }}
                         <div class="invalid-feedback">
                           Por favor escolha um username que não tenha sido usado.
                         </div>
                       </div>
+                          {% for error in form.username.errors %}
+                            <span class="alert-danger">{{ error + '*'}}</span>
+                          {% endfor %}
                     </div>
 
                      <div class="col-6">
                          <label for="inputPassword1" class="font-weight-bold">Crie uma Senha</label>
-                         <input type="password" class="form-control" id="inputPassword1">
+                         {{ form.password(type="password", class="form-control", id="inputPassword1") }}
+                         {% for error in form.password.errors %}
+                            <span class="alert-danger">{{ error + '*'}}</span>
+                         {% endfor %}
                      </div>
 
                      <div class="col-6">
                          <label for="inputPassword1" class="font-weight-bold">Confirme a Senha</label>
-                         <input type="password" class="form-control" id="inputPassword1">
+                         {{form.confirm_pass(type="password", class="form-control", id="inputPassword2")}}
                       </div>
 
-                      <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                      <input type="checkbox" class="custom-control-input" id="customControlInline">
-                      <label class="custom-control-label" for="customControlInline">Concordo com os termos do RITGames</label>
+
+                      <div class="custom-control custom-checkbox mr-sm-2" >
+                          {{ form.agree(type="checkbox", class="custom-control-input", id="Agree") }}
+                          <label class="custom-control-label" for="Agree">Concordo com os termos do RITGames</label>
                       <br>
                       <a href="#" class="badge badge-pill badge-primary text-white">Nossos termos</a>
                     </div>
 
                  </div>
-
+                  <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            {{ form.submit(type="submit", class="btn btn-success", id='Cadastrar') }}
+                  </div>
                 </form>
+
               </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success">Cadastrar-se</button>
-          </div>
+
         </div>
       </div>
     </div>
@@ -513,31 +533,31 @@
           <div class="modal-body">
              <div class="container align-content-center">
 
-                <form class="row">
+                <form class="row" action="/start" method="post" novalidate>
 
                  <div class="row">
 
                     <div class="col-6">
                         <label for="inputLogin" class="font-weight-bold">Login</label>
-                        <input type="text" class="form-control">
+                        {{ login.username(type='text', class='form-control', id='inputLogin') }}
                     </div>
 
                      <div class="col-6">
                          <label for="inputPassword1" class="font-weight-bold">Senha</label>
-                         <input type="password" class="form-control" id="inputPassword">
+                         {{ login.password(type="password", class="form-control", id="inputPassword") }}
                           <br>
                          <a href="#" class="badge badge-pill badge-primary text-white float-right">Esqueceu a senha?</a>
                      </div>
 
                      </div>
-
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        {{ login.submit(type="submit", class="btn btn-success", id='Login') }}
+                    </div>
                 </form>
               </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success">Entrar</button>
-          </div>
+
         </div>
       </div>
     </div>
