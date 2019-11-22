@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired, Email, EqualTo
 
 
 class RegistrationForm(FlaskForm):
+    tipo = 'registrationForm'
     first_name = StringField('inputFirstName')
     last_name = StringField('inputLastName')
     email = StringField('inputEmail', validators=[DataRequired(message='Campo Obrigatório'), Email('E-mail inválido')])
@@ -21,12 +22,21 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
+    tipo = 2
     username = StringField('inputLogin', validators=[DataRequired(message='Campo Obrigatório')])
     password = PasswordField('inputPassword', validators=[DataRequired(message='Campo Obrigatório')])
     submit = SubmitField('Login')
 
+    def to_json(self):
+        str_json = '{\"type\":\"' + str(self.tipo) + '\",\"username\":\"' + self.username.data + '\",\"password\":\"' \
+                   + self.password.data + '\"}'
+        # str_json.replace("'", "\"")
+
+        return str_json
+
 
 class User:
+    type = 1
     name = ''
     username = ''
     email = ''
@@ -35,6 +45,7 @@ class User:
     dashboard = None
 
     def __init__(self, name='', username='', email='', password=''):
+        self.type = "user"
         self.name = name
         self.username = username
         self.email = email
@@ -53,5 +64,7 @@ class User:
         self.password = password
 
     def to_json(self):
-        with open('data_user.json', 'w', encoding='utf-8') as f:
-            return json.dump(self.__dict__, f, ensure_ascii=False, indent=4)
+        return json.dumps(self.__dict__, indent=4, separators=(',', ': '))
+
+    def set_dashboard(self, dashboard):
+        self.dashboard = dashboard
