@@ -123,19 +123,7 @@ CORS(app, support_credentials=True)
 @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 @cross_origin()
 def index(name=None):
-    global conn
-    form = RegistrationForm(request.form)
-    if form.is_submitted():
-        if form.validate_on_submit():
-            save_user(form)
-        else:
-            flash("Cadastro não pôde ser realizado, verifique os campos.")
-
-    login = LoginForm(request.form)
-
-    form = RegistrationForm(request.form)
-
-    return render_template('index.html', form=form, login=login)
+    return render_template('index.html')
 
 
 @app.route('/start/', methods=['GET', 'POST'])
@@ -150,6 +138,23 @@ def dev(username):
         user = json.loads(file.read(), object_hook=lambda d: namedtuple('USER', d.keys())(*d.values()))
     print(user)
     return render_template('dev.html', user=user)
+
+
+@app.route('/register')
+def register():
+    form = RegistrationForm(request.form)
+    if form.is_submitted():
+        if form.validate_on_submit():
+            save_user(form)
+        else:
+            flash("Cadastro não pôde ser realizado, verifique os campos.")
+    return render_template('auth/register.html', form=form)
+
+
+@app.route('/login')
+def login():
+    login = LoginForm(request.form)
+    return render_template('auth/login.html', login=login)
 
 
 if __name__ == '__main__':

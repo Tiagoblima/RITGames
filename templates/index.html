@@ -97,14 +97,14 @@
           <h4 class="service-heading"><button class="btn btn-outline-dark" id="btnForm" data-toggle="modal" data-target="#formModalCenter">Seja um RITer</button> </h4>
           <p class="text-muted">Divirta-se</p>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <span class="fa-stack fa-4x">
           <i class="fa fa-share"></i>
           </span>
           <h4 class="service-heading"><button class="btn btn-outline-dark" data-toggle="modal" data-target="#loginModalCenter">Faça o login</button></h4>
           <p class="text-muted">a cada rodada</p>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
                 <span class="fa-stack fa-4x">
                 <h5>
                     Chat Online
@@ -112,7 +112,7 @@
                 </h5>
 
                  <div class="modal-body">
-                      <iframe src="https://rit-chat.herokuapp.com/" width="300px" height="300px"></iframe>
+                      <iframe src="https://rit-chat.herokuapp.com/" width="300px" height="300px" style="border:0"></iframe>
                   </div>
                 </span>
         </div>
@@ -462,74 +462,7 @@
             </button>
           </div>
           <div class="modal-body">
-             <div class="container align-content-center" id="formRegister">
-                <form action="/index.html" method="post" class="row">
-                    {{ form.hidden_tag() }}
-                 <div class="row">
-
-                    <div class="col-6">
-                        <label for="inputFirstName" class="font-weight-bold">Primeiro Nome</label>
-                        {{ form.first_name(type='text', class='form-control', id='inputFirstName') }}
-                    </div>
-
-                    <div class="col-6">
-                        <label for="inputLastName" class="font-weight-bold">Último Nome</label>
-                        {{ form.last_name(type="text", id="inputLastName", class="form-control") }}
-                    </div>
-
-                   <div class="col-6">
-                      <label for="inputEmail" class="font-weight-bold">E-mail</label>
-                       {{ form.email(type="text", class="form-control", id="inputEmail", placeholder="E-mail") }}
-                        {% for error in form.email.errors %}
-                            <span class="alert-danger">{{ error + '*'}}</span>
-                         {% endfor %}
-                   </div>
-
-                     <div class="col-6">
-                      <label for="validationServerUsername" class="font-weight-bold">Username</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroupPrepend3">@</span>
-                        </div>
-                        {{ form.username(type="text", class="form-control", id="inputUsername", placeholder="Username") }}
-                        <div class="invalid-feedback">
-                          Por favor escolha um username que não tenha sido usado.
-                        </div>
-                      </div>
-                          {% for error in form.username.errors %}
-                            <span class="alert-danger">{{ error + '*'}}</span>
-                          {% endfor %}
-                    </div>
-
-                     <div class="col-6">
-                         <label for="inputPassword1" class="font-weight-bold">Crie uma Senha</label>
-                         {{ form.password(type="password", class="form-control", id="inputPassword1") }}
-                         {% for error in form.password.errors %}
-                            <span class="alert-danger">{{ error + '*'}}</span>
-                         {% endfor %}
-                     </div>
-
-                     <div class="col-6">
-                         <label for="inputPassword1" class="font-weight-bold">Confirme a Senha</label>
-                         {{form.confirm_pass(type="password", class="form-control", id="inputPassword2")}}
-                      </div>
-
-
-                      <div class="custom-control custom-checkbox mr-sm-2" >
-                          {{ form.agree(type="checkbox", class="custom-control-input", id="Agree") }}
-                          <label class="custom-control-label" for="Agree">Concordo com os termos do RITGames</label>
-                      <br>
-                      <a href="#" class="badge badge-pill badge-primary text-white">Nossos termos</a>
-                    </div>
-
-                 </div>
-                  <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            {{ form.submit(type="submit", class="btn btn-success", id='Cadastrar') }}
-                  </div>
-                </form>
-
-              </div>
+              <iframe src="/register" height="350px" width="450px" style="border:0"></iframe>
           </div>
 
         </div>
@@ -547,33 +480,8 @@
             </button>
           </div>
           <div class="modal-body">
-             <div class="container align-content-center">
-
-                <form class="row" action="/start" method="post" novalidate>
-
-                 <div class="row">
-
-                    <div class="col-6">
-                        <label for="inputLogin" class="font-weight-bold">Login</label>
-                        {{ login.username(type='text', class='form-control', id='inputLogin') }}
-                    </div>
-
-                     <div class="col-6">
-                         <label for="inputPassword1" class="font-weight-bold">Senha</label>
-                         {{ login.password(type="password", class="form-control", id="inputPassword") }}
-                          <br>
-                         <a href="#" class="badge badge-pill badge-primary text-white float-right">Esqueceu a senha?</a>
-                     </div>
-
-                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        {{ login.submit(type="submit", class="btn btn-success", id='Login') }}
-                    </div>
-                </form>
-              </div>
+              <iframe src="/login" height="200px" width="450px" style="border:0"></iframe>
           </div>
-
         </div>
       </div>
     </div>
