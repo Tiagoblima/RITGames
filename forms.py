@@ -45,7 +45,7 @@ class User:
     dashboard = None
 
     def __init__(self, name='', username='', email='', password=''):
-        self.type = 1
+        self.type = "user"
         self.name = name
         self.username = username
         self.email = email

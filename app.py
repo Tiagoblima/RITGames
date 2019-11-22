@@ -1,30 +1,78 @@
 from collections import namedtuple
-from pprint import pprint
-
+from datetime import timedelta
+from functools import update_wrapper
+from flask_cors import CORS, cross_origin
 from flask import Flask, url_for, flash, redirect, request
 from flask import render_template
+from flask import Flask, make_response, request, current_app
+from past.types import basestring
+
 from config import Config
 from forms import RegistrationForm, User, LoginForm
 from connection import Connection
 import json
 
 app = Flask(__name__, template_folder='templates')
+
+cors = CORS(app, resources={r"/": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_object(Config)
+
+sender = Connection()
+sender.set_dest_port(6789)
+
+listener = Connection()
+
+
+def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_to_all=True, automatic_options=True):
+    if methods is not None:
+        methods = ', '.join(sorted(x.upper() for x in methods))
+    if headers is not None and not isinstance(headers, basestring):
+        headers = ', '.join(x.upper() for x in headers)
+    if not isinstance(origin, basestring):
+        origin = ', '.join(origin)
+    if isinstance(max_age, timedelta):
+        max_age = max_age.total_seconds()
+
+    def get_methods():
+        if methods is not None:
+            return methods
+
+        options_resp = current_app.make_default_options_response()
+        return options_resp.headers['allow']
+
+    def decorator(f):
+        def wrapped_function(*args, **kwargs):
+            if automatic_options and request.method == 'OPTIONS':
+                resp = current_app.make_default_options_response()
+            else:
+                resp = make_response(f(*args, **kwargs))
+            if not attach_to_all and request.method != 'OPTIONS':
+                return resp
+
+            h = resp.headers
+
+            h['Access-Control-Allow-Origin'] = origin
+            h['Access-Control-Allow-Methods'] = get_methods()
+            h['Access-Control-Max-Age'] = str(max_age)
+            if headers is not None:
+                h['Access-Control-Allow-Headers'] = headers
+            return resp
+
+        f.provide_automatic_options = False
+        return update_wrapper(wrapped_function, f)
+
+    return decorator
 
 
 def save_user(form):
     flash("Cadastro Realizado com sucesso!")
     user = User(form.first_name.data + ' ' + form.last_name.data,
-                form.username.data,
-                form.email.data,
+                form.username.data.replace('.', '_'),
+                form.email.data.replace('.', '_'),
                 form.password.data)
-    sender = Connection()
-    try:
 
-        sender.set_dest_port(9000)
-        sender.send_obj(user.to_json())
-    finally:
-        sender.close()
+    sender.send_obj("\"" + user.to_json().replace("\'", '') + "\"")
 
 
 def do_login(username=''):
@@ -32,20 +80,18 @@ def do_login(username=''):
     if login.is_submitted():
         print('Hello World')
         print(login.to_json())
-        sender_login = Connection()
-        sender_login.set_dest_port(9000)
-        try:
-            print(login.to_json())
-            sender_login.send_obj(login.to_json())
-        finally:
-            sender_login.close()
 
+        sender.send_obj(login.to_json())
+
+    data = '{}'
+    user = None
     try:
         with open(username + '.json') as file:
-            user = json.loads(file.read(), object_hook=lambda d: namedtuple('USER', d.keys())(*d.values()))
+            data = file.read()
     except FileNotFoundError:
-        listener = Connection()
+
         data = listener.listening(6457)
+
         user = json.loads(data, object_hook=lambda d: namedtuple('USER', d.keys())(*d.values()))
         with open(user.username + '.json', 'w') as file:
 
@@ -58,12 +104,24 @@ def do_login(username=''):
     return user
 
 
+@app.after_request
+def add_headers(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
 @app.route('/')
+@crossdomain(origin='*', headers=['Content-Type', 'Authorization'])
 def run_start():
     return index()
 
 
+CORS(app, support_credentials=True)
+
+
 @app.route('/index.html', methods=['GET', 'POST'])
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
+@cross_origin()
 def index(name=None):
     global conn
     form = RegistrationForm(request.form)
