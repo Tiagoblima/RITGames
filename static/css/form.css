@@ -4,3 +4,8 @@
     float: bottom;
     background-color: #0b2e13;
 }
+iframe
+{
+  overflow-x:hidden;
+  overflow-Y:hidden;
+}

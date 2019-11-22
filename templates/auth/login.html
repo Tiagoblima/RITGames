@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>RIT Games :)</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="../../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="../../static/css/agency.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container align-content-center">
+
+        <form class="row" action="/start" method="post" novalidate>
+
+         <div class="row">
+
+            <div class="col-6">
+                <label for="inputLogin" class="font-weight-bold">Login</label>
+                {{ login.username(type='text', class='form-control', id='inputLogin') }}
+            </div>
+
+             <div class="col-6">
+                 <label for="inputPassword1" class="font-weight-bold">Senha</label>
+                 {{ login.password(type="password", class="form-control", id="inputPassword") }}
+                  <br>
+                 <a href="#" class="badge badge-pill badge-primary text-white float-right">Esqueceu a senha?</a>
+             </div>
+
+             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                {{ login.submit(type="submit", class="btn btn-success", id='Login') }}
+            </div>
+        </form>
+  </div>
+</body>
+</html>
