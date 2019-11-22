@@ -27,10 +27,26 @@
 <body>
 <div class="container align-content-center" id="formRegister">
 
-         <form action="/index.html" method="post" class="row">
+         <form action="/register" method="post" class="row">
                 {{ form.hidden_tag() }}
              <div class="row">
-
+             {% with messages = get_flashed_messages() %}
+                {% if messages[0] == "Cadastro Realizado com sucesso!" %}
+                        <div class="alert alert-success" role="alert">
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                         </div>
+                    {% elif messages %}
+                         <div class="alert alert-danger" role="alert">
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                         </div>
+                    {% endif %}
+                {% endwith %}
+                {% block content %}{% endblock %}
+                  <br>
                 <div class="col-6">
                     <label for="inputFirstName" class="font-weight-bold">Primeiro Nome</label>
                     {{ form.first_name(type='text', class='form-control', id='inputFirstName') }}
@@ -78,17 +94,15 @@
                      {{form.confirm_pass(type="password", class="form-control", id="inputPassword2")}}
                   </div>
 
-
-                  <div class="custom-control custom-checkbox mr-sm-2" >
-                      {{ form.agree(type="checkbox", class="custom-control-input", id="Agree") }}
-                      <label class="custom-control-label" for="Agree">Concordo com os termos do RITGames</label>
-                  <br>
-                  <a href="#" class="badge badge-pill badge-primary text-white">Nossos termos</a>
-                </div>
-
              </div>
               <div class="col-md-4 text-center">
                   <br>
+                  <div class="custom-control custom-checkbox mr-sm-2" >
+                      {{ form.agree(type="checkbox", class="custom-control-input", id="Agree") }}
+                      <label class="custom-control-label" for="Agree">Concordo com os termos</label>
+                  <br>
+                  <a href="#" class="badge badge-pill badge-primary text-white">Nossos termos</a>
+                </div>
                   {{ form.submit(type="submit", class="btn btn-success btn-lg", id='Cadastrar') }}
               </div>
          </form>

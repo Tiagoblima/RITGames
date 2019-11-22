@@ -140,18 +140,18 @@ def dev(username):
     return render_template('dev.html', user=user)
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
     if form.is_submitted():
         if form.validate_on_submit():
             save_user(form)
         else:
-            flash("Cadastro não pôde ser realizado, verifique os campos.")
+            flash("Cadastro não pôde ser realizado.")
     return render_template('auth/register.html', form=form)
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     login = LoginForm(request.form)
     return render_template('auth/login.html', login=login)
