@@ -119,4 +119,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+<<<<<<< HEAD
+=======
+
+>>>>>>> 657f2e0c0a2f560dafaf808f00e2d22e22e0e796
 node_modules

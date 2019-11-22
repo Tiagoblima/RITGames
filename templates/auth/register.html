@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>RIT Games :)</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="../../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="../../static/css/agency.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container align-content-center" id="formRegister">
+
+         <form action="/index.html" method="post" class="row">
+                {{ form.hidden_tag() }}
+             <div class="row">
+
+                <div class="col-6">
+                    <label for="inputFirstName" class="font-weight-bold">Primeiro Nome</label>
+                    {{ form.first_name(type='text', class='form-control', id='inputFirstName') }}
+                </div>
+
+                <div class="col-6">
+                    <label for="inputLastName" class="font-weight-bold">Último Nome</label>
+                    {{ form.last_name(type="text", id="inputLastName", class="form-control") }}
+                </div>
+
+               <div class="col-6">
+                  <label for="inputEmail" class="font-weight-bold">E-mail</label>
+                   {{ form.email(type="text", class="form-control", id="inputEmail", placeholder="E-mail") }}
+                    {% for error in form.email.errors %}
+                        <span class="alert-danger">{{ error + '*'}}</span>
+                     {% endfor %}
+               </div>
+
+                 <div class="col-6">
+                  <label for="validationServerUsername" class="font-weight-bold">Username</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroupPrepend3">@</span>
+                    </div>
+                    {{ form.username(type="text", class="form-control", id="inputUsername", placeholder="Username") }}
+                    <div class="invalid-feedback">
+                      Por favor escolha um username que não tenha sido usado.
+                    </div>
+                  </div>
+                      {% for error in form.username.errors %}
+                        <span class="alert-danger">{{ error + '*'}}</span>
+                      {% endfor %}
+                </div>
+
+                 <div class="col-6">
+                     <label for="inputPassword1" class="font-weight-bold">Crie uma Senha</label>
+                     {{ form.password(type="password", class="form-control", id="inputPassword1") }}
+                     {% for error in form.password.errors %}
+                        <span class="alert-danger">{{ error + '*'}}</span>
+                     {% endfor %}
+                 </div>
+
+                 <div class="col-6">
+                     <label for="inputPassword1" class="font-weight-bold">Confirme a Senha</label>
+                     {{form.confirm_pass(type="password", class="form-control", id="inputPassword2")}}
+                  </div>
+
+
+                  <div class="custom-control custom-checkbox mr-sm-2" >
+                      {{ form.agree(type="checkbox", class="custom-control-input", id="Agree") }}
+                      <label class="custom-control-label" for="Agree">Concordo com os termos do RITGames</label>
+                  <br>
+                  <a href="#" class="badge badge-pill badge-primary text-white">Nossos termos</a>
+                </div>
+
+             </div>
+              <div class="col-md-4 text-center">
+                  <br>
+                  {{ form.submit(type="submit", class="btn btn-success btn-lg", id='Cadastrar') }}
+              </div>
+         </form>
+</div>
+
+
+</body>
+
+</html>
+
