@@ -1,5 +1,4 @@
-future
-
+  
 # This file is used by pip to install required python packages
 # Usage: pip install -r requirements.txt
 
@@ -16,9 +15,14 @@ Flask-SQLAlchemy==2.4.0
 Flask-WTF==0.14.2
 Flask-User==1.0.1.5
 flask-cors
+<<<<<<< HEAD
 gunicorn>=19.9.0
 npm
 nodejs
+=======
+
+
+>>>>>>> 01ef98cd3c529eca358d89bc98494485425d5c06
 # Automated tests
 pytest==3.0.5
 pytest-cov==2.4.0
