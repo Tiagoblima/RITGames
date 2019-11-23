@@ -110,7 +110,6 @@ def add_headers(response):
 
 
 @app.route('/')
-@crossdomain(origin='*', headers=['Content-Type', 'Authorization'])
 def run_start():
     return index()
 
