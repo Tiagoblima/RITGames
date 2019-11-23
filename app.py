@@ -62,8 +62,8 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_t
     return decorator
 
 
-HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-PORT = 6789  # Port to listen on (non-privileged ports are > 1023)
+HOST = '0.0.0.0'  # Standard loopback interface address (localhost)
+PORT = os.environ.get("PORT")  # Port to listen on (non-privileged ports are > 1023)
 
 
 def save_user(form):
