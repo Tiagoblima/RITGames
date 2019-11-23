@@ -1,7 +1,6 @@
 from collections import namedtuple
 from datetime import timedelta
 from functools import update_wrapper
-from flask_cors import CORS, cross_origin
 from flask import Flask, url_for, flash, redirect, request
 from flask import render_template
 from flask import Flask, make_response, request, current_app
@@ -14,7 +13,6 @@ import json
 
 app = Flask(__name__, template_folder='templates')
 
-cors = CORS(app, resources={r"/": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_object(Config)
 
@@ -116,12 +114,7 @@ def run_start():
     return index()
 
 
-CORS(app, support_credentials=True)
-
-
 @app.route('/index.html', methods=['GET', 'POST'])
-@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
-@cross_origin()
 def index(name=None):
     return render_template('index.html')
 
