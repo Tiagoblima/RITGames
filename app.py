@@ -1,3 +1,4 @@
+import os
 import socket
 from collections import namedtuple
 from concurrent.futures import process
@@ -19,7 +20,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_object(Config)
 
 sender = Connection()
-sender.set_dest_port(6789)
+sender.set_dest_port(os.environ.get("PORT"))
 
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_to_all=True, automatic_options=True):
@@ -167,4 +168,6 @@ def login():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
+
