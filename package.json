@@ -3,7 +3,9 @@
     "name": "startbootstrap-agency",
     "version": "5.2.2",
     "scripts": {
-        "start": "node_modules/.bin/gulp watch"
+        "start": "node_modules/.bin/gulp watch",
+        "test": "echo \"Error: no test specified\" && exit 1"
+
     },
     "description": "Agency is a one page HTML theme for Bootstrap.",
     "keywords": [
@@ -46,5 +48,10 @@
         "gulp-sass": "4.0.2",
         "gulp-uglify": "3.0.2",
         "merge-stream": "2.0.0"
-    }
+    },
+     "engines": {
+    "node": "7.0.0",
+    "npm": "3.10.8"
+  }
 }
+

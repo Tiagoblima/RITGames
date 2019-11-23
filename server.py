@@ -51,21 +51,25 @@ class Server:
     def get_data(self):
         return self.data
 
+    def close(self):
+        self._listener.close()
 
-while True:
-    listener = Server(('localhost', 9000))
-    data = listener.listen(9000)
 
-    data_dic = json.loads(data)
-    print(int(data_dic['type']) is 2)
-    if int(data_dic['type']) is 2:
+def connection(msg=''):
+    while True:
+        listener = Server(('localhost', 9000))
+        data = listener.listen(9000)
 
-        with open('data_user.json', 'r') as file:
-            user = file.read()
-            print(user)
-            sender = Server(('localhost', 9000))
-            sender.send(user)
-    elif int(data_dic['type']) is 1:
+        data_dic = json.loads(data)
+        print(int(data_dic['type']) is 2)
+        if int(data_dic['type']) is 2:
 
-        with open('data_user.json', 'w') as file:
-            user = file.write(data)
+            with open('data_user.json', 'r') as file:
+                user = file.read()
+                print(user)
+                sender = Server(('localhost', 9000))
+                sender.send(user)
+        elif int(data_dic['type']) is 1:
+
+            with open('data_user.json', 'w') as file:
+                user = file.write(data)
