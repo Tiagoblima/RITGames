@@ -1,11 +1,7 @@
-<<<<<<< HEAD
-from flask import Flask, url_for
-=======
 from collections import namedtuple
 from datetime import timedelta
 from functools import update_wrapper
 from flask import Flask, url_for, flash, redirect, request
->>>>>>> 01ef98cd3c529eca358d89bc98494485425d5c06
 from flask import render_template
 from flask import Flask, make_response, request, current_app
 from past.types import basestring
