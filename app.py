@@ -5,7 +5,8 @@ from flask import Flask, url_for, flash, redirect, request
 from flask import render_template
 from flask import Flask, make_response, request, current_app
 from past.types import basestring
-
+from connection import Connection
+from server import Server
 from config import Config
 from forms import Form
 app = Flask(__name__, template_folder='templates')
