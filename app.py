@@ -1,5 +1,4 @@
 import os
-import socket
 from collections import namedtuple
 from datetime import timedelta
 from functools import update_wrapper
@@ -14,7 +13,7 @@ from connection import Connection
 import json
 
 app = Flask(__name__, template_folder='templates')
-
+app.debug = 'DEBUG' in os.environ
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_object(Config)
 
@@ -166,7 +165,4 @@ def login():
     return render_template('auth/login.html', login=login)
 
 
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
 
