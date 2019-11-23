@@ -1,3 +1,3 @@
-web: gunicorn app:rit-games
-gunicorn server:app
+web: gunicorn app:app
+
 

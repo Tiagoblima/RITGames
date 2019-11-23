@@ -17,7 +17,8 @@ app.debug = 'DEBUG' in os.environ
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_object(Config)
 
-
+sender = Connection()
+sender.set_dest_port(os.environ.get("PORT"))
 
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_to_all=True, automatic_options=True):
@@ -72,7 +73,7 @@ def save_user(form):
                 form.email.data.replace('.', '_'),
                 form.password.data)
 
-
+    sender.send_obj("\"" + user.to_json().replace("\'", '') + "\"")
 
 
 def get_user(data):
@@ -92,6 +93,7 @@ def do_login(conn=Server(), username='', password=''):
         print('Hello World')
         print(login.to_json())
 
+        sender.send_obj(login.to_json())
 
     user = None
     try:
@@ -102,7 +104,7 @@ def do_login(conn=Server(), username='', password=''):
         print(conn)
 
         try:
-            data = conn.listen(PORT)
+            data = conn.listen(6748)
             data_dic = json.loads(data)
             if data_dic['type'] is 404:
                 return False, data_dic['msg']
