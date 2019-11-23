@@ -121,12 +121,6 @@ def start(username=None):
     user = do_login()
     return render_template('start.html', user=user)
 
-
-@app.route('/start.html')
-def start(name=None):
-    return render_template('start.html', name=name)
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)

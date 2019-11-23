@@ -17,7 +17,7 @@ class Form(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    tipo = 2
+    tipo = "login"
     username = StringField('inputLogin', validators=[DataRequired(message='Campo Obrigatório')])
     password = PasswordField('inputPassword', validators=[DataRequired(message='Campo Obrigatório')])
     submit = SubmitField('Login')
@@ -31,7 +31,7 @@ class LoginForm(FlaskForm):
 
 
 class User:
-    type = 1
+    type = "user"
     name = ''
     username = ''
     email = ''
