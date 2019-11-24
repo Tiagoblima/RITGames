@@ -68,11 +68,6 @@ PORT = os.environ.get("PORT")  # Port to listen on (non-privileged ports are > 1
 
 
 def save_user(form):
-    user = User(form.first_name.data + ' ' + form.last_name.data,
-                form.username.data.replace('.', '_'),
-                form.email.data.replace('.', '_'),
-                form.password.data)
-    sender.send_obj("\"" + user.to_json().replace("\'", '') + "\"")
 
     response = requests.post("https://rit-bd.herokuapp.com/conta/cadastrar/" +
                              form.first_name.data + ' ' + form.last_name.data + '/' +
