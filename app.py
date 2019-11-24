@@ -91,11 +91,6 @@ def save_user(form):
 def get_user(data):
     user = json.loads(data, object_hook=lambda d: namedtuple('USER', d.keys(), rename=True)(*d.values()))
 
-    with open(user.login + '.json', 'w') as file:
-        j_data = json.dumps(user, indent=4, separators=(',', ': '))
-        s = json.dumps(j_data, indent=4, sort_keys=True)
-
-        file.write(s)
     return user
 
 
