@@ -68,13 +68,24 @@ PORT = os.environ.get("PORT")  # Port to listen on (non-privileged ports are > 1
 
 
 def save_user(form):
-    flash("Cadastro Realizado com sucesso!")
     user = User(form.first_name.data + ' ' + form.last_name.data,
                 form.username.data.replace('.', '_'),
                 form.email.data.replace('.', '_'),
                 form.password.data)
-
     sender.send_obj("\"" + user.to_json().replace("\'", '') + "\"")
+
+    response = requests.post("https://rit-bd.herokuapp.com/conta/cadastrar/" +
+                             form.first_name.data + ' ' + form.last_name.data + '/' +
+                             form.username.data + '/' +
+                             form.password.data + '/' +
+                             form.email.data + '/' + 'user')
+
+    print(response.status_code)
+
+    if response.status_code is 200:
+        return "Cadastro Realizado com sucesso!"
+    else:
+        return "Erro ao cadastrar tente novamente"
 
 
 def get_user(data):
@@ -117,7 +128,6 @@ def index(name=None):
     if login.is_submitted():
         print(login.username.data + '/' + login.password.data)
         data = do_login(login.username.data, login.password.data)
-        print(str(data[1]))
 
         try:
             user = get_user(data[1])
@@ -147,9 +157,8 @@ def register():
     form = RegistrationForm(request.form)
     if form.is_submitted():
         if form.validate_on_submit():
-            save_user(form)
-        else:
-            flash("Cadastro não pôde ser realizado.")
+            msg = save_user(form)
+            flash(msg)
     return render_template('auth/register.html', form=form)
 
 
