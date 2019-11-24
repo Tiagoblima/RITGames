@@ -22,13 +22,13 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    tipo = "login"
+
     username = StringField('inputLogin', validators=[DataRequired(message='Campo Obrigatório')])
     password = PasswordField('inputPassword', validators=[DataRequired(message='Campo Obrigatório')])
     submit = SubmitField('Login')
 
     def to_json(self):
-        str_json = '{\"type\":\"' + str(self.tipo) + '\",\"username\":\"' + self.username.data + '\",\"password\":\"' \
+        str_json = '{\"login\":\"' + self.username.data + '\",\"senha\":\"' \
                    + self.password.data + '\"}'
         # str_json.replace("'", "\"")
 

@@ -1,16 +1,17 @@
+import json
 import os
+import requests
 from collections import namedtuple
 from datetime import timedelta
 from functools import update_wrapper
-from flask import Flask, url_for, flash, redirect, request
-from flask import render_template
 from flask import Flask, make_response, request, current_app
+from flask import flash, redirect
+from flask import render_template
 from past.types import basestring
-from server import connection, Server
 from config import Config
-from forms import RegistrationForm, User, LoginForm
 from connection import Connection
-import json
+from forms import RegistrationForm, User, LoginForm
+from server import Server
 
 app = Flask(__name__, template_folder='templates')
 app.debug = 'DEBUG' in os.environ
@@ -62,7 +63,7 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_t
     return decorator
 
 
-HOST = '0.0.0.0'  # Standard loopback interface address (localhost)
+# Standard loopback interface address (localhost)
 PORT = os.environ.get("PORT")  # Port to listen on (non-privileged ports are > 1023)
 
 
@@ -77,9 +78,9 @@ def save_user(form):
 
 
 def get_user(data):
-    user = json.loads(data, object_hook=lambda d: namedtuple('USER', d.keys())(*d.values()))
+    user = json.loads(data, object_hook=lambda d: namedtuple('USER', d.keys(), rename=True)(*d.values()))
 
-    with open(user.username + '.json', 'w') as file:
+    with open(user.login + '.json', 'w') as file:
         j_data = json.dumps(user, indent=4, separators=(',', ': '))
         s = json.dumps(j_data, indent=4, sort_keys=True)
 
@@ -87,34 +88,14 @@ def get_user(data):
     return user
 
 
-def do_login(conn=Server(), username='', password=''):
-    login = LoginForm(request.form)
-    if login.is_submitted():
-        print('Hello World')
-        print(login.to_json())
+def do_login(username='', password=''):
+    response = requests.get("https://rit-bd.herokuapp.com/conta/logar/" + username + '/' + password)
 
-        sender.send_obj(login.to_json())
+    if response.status_code is 200:
+        user = response.content
+        return True, user
 
-    user = None
-    try:
-        file = open(username + '.json', 'r')
-        data = file.read()
-        get_user(data)
-    except FileNotFoundError:
-        print(conn)
-
-        try:
-            data = conn.listen(6748)
-            data_dic = json.loads(data)
-            if data_dic['type'] is 404:
-                return False, data_dic['msg']
-            user = get_user(data)
-        except OSError:
-            conn.close()
-            flash('Aguardando reposta do servidor')
-            pass
-
-    return True, user
+    return False, "Login ou senha incorretos"
 
 
 @app.after_request
@@ -123,14 +104,33 @@ def add_headers(response):
     return response
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
+def run_start():
+    return index()
+
+
+@app.route('/index', methods=['GET', 'POST'])
 def index(name=None):
-    return render_template('index.html')
+    login = LoginForm(request.form)
+
+    user = User()
+    if login.is_submitted():
+        print(login.username.data + '/' + login.password.data)
+        data = do_login(login.username.data, login.password.data)
+        print(str(data[1]))
+
+        try:
+            user = get_user(data[1])
+            user_json = json.dumps(user, indent=4, separators=(',', ': '))
+            return start(user)
+        except json.decoder.JSONDecodeError:
+            flash("Login ou senha incorretos")
+
+    return render_template('index.html', login=login)
 
 
 @app.route('/start', methods=['GET', 'POST'])
-def start(username=None):
-    user = do_login()
+def start(user):
     return render_template('start.html', user=user)
 
 
@@ -158,11 +158,9 @@ def login():
     login = LoginForm(request.form)
     if login.is_submitted():
         result, data = do_login(username=login.username.data, password=login.password.data)
-        if result:
+        if not result:
             flash(data)
         else:
             flash('Login realizado!')
+
     return render_template('auth/login.html', login=login)
-
-
-
