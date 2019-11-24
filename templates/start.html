@@ -102,11 +102,11 @@
          <br>
          <br>
          <div class="alert alert-primary" role="alert">
-         {{ user['name'] }} <br>
+         {{ user['nome'] }} <br>
          {{ user['email'] }} <br>
          </div>
             <button class="btn btn-outline-primary float-left" data-toggle="modal" data-target="#editModalCenter">Alterar Cadastro</button>
-            <a class="btn btn-outline-success float-right"  role="button" href={{ "/dev.html/" + user.username }} >Perfil Developer</a>
+            <a class="btn btn-outline-success float-right"  role="button" href={{ "/dev.html/" + user.login }} >Perfil Developer</a>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
