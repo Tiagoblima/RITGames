@@ -68,7 +68,6 @@ PORT = os.environ.get("PORT")  # Port to listen on (non-privileged ports are > 1
 
 
 def save_user(form):
-
     response = requests.post("https://rit-bd.herokuapp.com/conta/cadastrar/" +
                              form.first_name.data + ' ' + form.last_name.data + '/' +
                              form.username.data + '/' +
@@ -85,7 +84,6 @@ def save_user(form):
 
 def get_user(data):
     user = json.loads(data, object_hook=lambda d: namedtuple('USER', d.keys(), rename=True)(*d.values()))
-
     return user
 
 
@@ -97,6 +95,11 @@ def do_login(username='', password=''):
         return True, user
 
     return False, "Login ou senha incorretos"
+
+
+@app.route('/games')
+def games():
+    return render_template('games.html')
 
 
 @app.after_request
