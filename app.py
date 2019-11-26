@@ -1,5 +1,7 @@
 import json
 import os
+from sys import intern
+
 import requests
 from collections import namedtuple
 from datetime import timedelta
@@ -130,7 +132,8 @@ def cache_data(name, data):
 
 def delete_cache():
     for item in os.listdir(CACHE_PATH):
-        os.remove(os.path.join(CACHE_PATH, item))
+        if item is not intern('package.json'):
+            os.remove(os.path.join(CACHE_PATH, item))
 
 
 @app.route('/games')
