@@ -68,7 +68,6 @@ PORT = os.environ.get("PORT")  # Port to listen on (non-privileged ports are > 1
 
 
 def save_user(form):
-
     response = requests.post("https://rit-bd.herokuapp.com/conta/cadastrar/" +
                              form.first_name.data + ' ' + form.last_name.data + '/' +
                              form.username.data + '/' +
@@ -85,7 +84,6 @@ def save_user(form):
 
 def get_user(data):
     user = json.loads(data, object_hook=lambda d: namedtuple('USER', d.keys(), rename=True)(*d.values()))
-
     return user
 
 
@@ -94,9 +92,47 @@ def do_login(username='', password=''):
 
     if response.status_code is 200:
         user = response.content
-        return True, user
+        return True, json.loads(user)
 
     return False, "Login ou senha incorretos"
+
+
+def get_games():
+    response = requests.get('https://rit-gameserver.herokuapp.com/games/')
+    return response.content
+
+
+def get_game(name, category):
+    response = requests.get('https://rit-gameserver.herokuapp.com/games/' +
+                            name + '/' +
+                            category + '/')
+    return response
+
+
+CACHE_PATH = r"cache/"
+
+
+def get_cache(name):
+    path = os.path.join(CACHE_PATH, name + '.json')
+    with open(path, 'r') as file:
+        return file.read()
+
+
+def cache_data(name, data):
+    path = os.path.join(CACHE_PATH, name + '.json')
+    with open(path, 'w') as file:
+        file.write(json.dumps(data))
+
+
+def delete_cache():
+    for item in os.listdir(CACHE_PATH):
+        os.remove(os.path.join(CACHE_PATH, item))
+
+
+@app.route('/games')
+def games():
+    print(get_games())
+    return render_template('games.html', games=get_games())
 
 
 @app.after_request
@@ -112,6 +148,7 @@ def run_start():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index(name=None):
+    delete_cache()
     login = LoginForm(request.form)
 
     user = User()
@@ -119,25 +156,25 @@ def index(name=None):
         print(login.username.data + '/' + login.password.data)
         data = do_login(login.username.data, login.password.data)
 
-        try:
-            user = get_user(data[1])
-            user_json = json.dumps(user, indent=4, separators=(',', ': '))
-            return start(user)
-        except json.decoder.JSONDecodeError:
+        if data[0]:
+            cache_data(data[1]['login'], data[1])
+            return start(data[1]['login'])
+        else:
             flash("Login ou senha incorretos")
 
     return render_template('index.html', login=login)
 
 
-@app.route('/start', methods=['GET', 'POST'])
-def start(user):
+@app.route('/start/<username>', methods=['GET', 'POST'])
+def start(username):
+
+    user = get_user(get_cache(username))
     return render_template('start.html', user=user)
 
 
 @app.route('/dev.html/<username>')
 def dev(username):
-    with open(username + '.json', 'r') as file:
-        user = json.loads(file.read(), object_hook=lambda d: namedtuple('USER', d.keys())(*d.values()))
+    user = get_user(get_cache(username))
     print(user)
     return render_template('dev.html', user=user)
 
@@ -163,3 +200,7 @@ def login():
             flash('Login realizado!')
 
     return render_template('auth/login.html', login=login)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
