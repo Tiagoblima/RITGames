@@ -97,9 +97,22 @@ def do_login(username='', password=''):
     return False, "Login ou senha incorretos"
 
 
+def get_games():
+    response = requests.get('https://rit-gameserver.herokuapp.com/games/')
+    return response.content
+
+
+def get_game(name, category):
+    response = requests.get('https://rit-gameserver.herokuapp.com/games/' +
+                            name + '/' +
+                            category + '/')
+    return response
+
+
 @app.route('/games')
 def games():
-    return render_template('games.html')
+    print(get_games())
+    return render_template('games.html', games=get_games())
 
 
 @app.after_request
