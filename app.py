@@ -92,7 +92,11 @@ def do_login(username='', password=''):
 
     if response.status_code is 200:
         user = response.content
-        return True, json.loads(user)
+        try:
+            user_dic = json.loads(user)
+            return True, json.loads(user)
+        except json.decoder.JSONDecodeError:
+            pass
 
     return False, "Login ou senha incorretos"
 
