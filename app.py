@@ -109,7 +109,7 @@ def get_game(name, category):
     return response
 
 
-CACHE_PATH = r"cache/"
+CACHE_PATH = r"../cache/"
 
 
 def get_cache(name):
