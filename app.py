@@ -148,7 +148,7 @@ def run_start():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index(name=None):
-
+    delete_cache()
     login = LoginForm(request.form)
 
     user = User()
@@ -162,7 +162,7 @@ def index(name=None):
         else:
             flash("Login ou senha incorretos")
 
-    return render_template('index.html', login=login, dir=os.listdir())
+    return render_template('index.html', login=login, dir=CACHE_PATH)
 
 
 @app.route('/start/<username>', methods=['GET', 'POST'])
