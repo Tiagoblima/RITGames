@@ -162,7 +162,7 @@ def index(name=None):
         else:
             flash("Login ou senha incorretos")
 
-    return render_template('index.html', login=login, dir=os.getcwd())
+    return render_template('index.html', login=login, dir=os.listdir(os.getcwd()))
 
 
 @app.route('/start/<username>', methods=['GET', 'POST'])
