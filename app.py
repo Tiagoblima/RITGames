@@ -109,7 +109,7 @@ def get_game(name, category):
     return response
 
 
-CACHE_PATH = r"../cache/"
+CACHE_PATH = os.getcwd() + 'cache/'
 
 
 def get_cache(name):
@@ -148,7 +148,7 @@ def run_start():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index(name=None):
-    delete_cache()
+
     login = LoginForm(request.form)
 
     user = User()
@@ -162,12 +162,11 @@ def index(name=None):
         else:
             flash("Login ou senha incorretos")
 
-    return render_template('index.html', login=login)
+    return render_template('index.html', login=login, dir=os.getcwd())
 
 
 @app.route('/start/<username>', methods=['GET', 'POST'])
 def start(username):
-
     user = get_user(get_cache(username))
     return render_template('start.html', user=user)
 
