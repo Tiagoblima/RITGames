@@ -108,7 +108,7 @@ def do_login(username='', password=''):
 
 def get_games():
     response = requests.get('https://rit-gameserver.herokuapp.com/games/')
-    return response.content
+    return json.loads(response.content)
 
 
 def get_game(name, category):
@@ -139,10 +139,35 @@ def delete_cache():
             os.remove(os.path.join(CACHE_PATH, item))
 
 
+def format_games(dic):
+    games_dic = {}
+
+    for game, _id in zip(dic.values(), dic.keys()):
+
+        game['_id'] = str(_id)
+        try:
+            inside = False
+            for row in games_dic[game['categoria']]:
+                if len(row) <= 4:
+                    row.append(game)
+                    inside = True
+
+            if not inside:
+                games_dic[game['categoria']].append([game])
+
+        except KeyError:
+            games_dic[game['categoria']] = [[game]]
+
+    return games_dic
+
+
 @app.route('/games')
 def games():
-    print(get_games())
-    return render_template('games.html', games=get_games())
+    games_dic = format_games(get_games())
+    print(games_dic)
+    print(len(games_dic['aventura'][0]))
+    return render_template('games.html', categorias=games_dic.keys(), games=games_dic,
+                           row_lim=4, game_count=0)
 
 
 @app.after_request

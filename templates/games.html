@@ -12,21 +12,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav text-uppercase ml-auto">
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#classical">Clássicos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#action">Ação</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#sports">Esportes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#adventure">Aventura</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#strategy">Strategia</a>
-          </li>
+            {% for categoria in categorias %}
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger text-uppercase" href={{ '#' + categoria }}>{{categoria}}</a>
+              </li>
+            {% endfor %}
         </ul>
       </div>
     </div>
@@ -36,296 +26,74 @@
 {% block content %}
 
     <!-- Services -->
-    <section class="bg-light page-section" id="classical">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">Clásicos</h2>
-            <h3 class="section-subheading text-muted">Rápido, Fácil e prático.</h3>
-        </div>
-    </div>
-    <div class="row">
-
-    <div class="col-md-2 col-sm-6 portfolio-item text-center">
-
-    </div>
-        <div class="col-md-2 col-sm-6 portfolio-item text-center">
-            <img class="img-fluid d-block mx-auto" src="../static/img/portfolio/pacman.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Pacman</h5>
-                <p class="card-text">Controle o pacman com as setas do seu teclado e divirta-se.</p>
-                <a  href="#" class="btn btn-primary text-dark">Play</a>
+    {% for categoria in categorias %}
+        <section class="bg-light page-section" id={{categoria}}>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase">{{categoria}}</h2>
+                <h3 class="section-subheading text-muted">Rápido, Fácil e prático.</h3>
             </div>
         </div>
 
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a data-toggle="modal" href="#portfolioModal3" class="btn btn-primary">Play</a>
-            </div>
-        </div>
+            {% for row in games[categoria] %}
+              <div class="d-flex justify-content-center">
+               {% for game in row %}
+                         <div class="col-md-2 col-sm-6 portfolio-item text-center">
+                            <img class="img-fluid d-block mx-lg-4" alt="" src={{ game['url_image'] }} >
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-capitalize">{{game['nome']}}</h5>
+                                <p class="card-text">{{ game['description'] }}</p>
+                                <button data-toggle="modal" class="btn btn-primary text-dark" data-target={{ '#' + game['nome'] }}>Play</button>
+                            </div>
+                        </div>
+                   {% endfor %}
+              </div>
 
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-6 portfolio-item">
+            {% endfor %}
 
-        </div>
-    </div>
-    </section>
+        </section>
+    {% endfor %}
 
-<section class="bg-light page-section" id="action">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">Ação</h2>
-            <h3 class="section-subheading text-muted">Rápido, Fácil e prático.</h3>
-        </div>
-    </div>
-    <div class="row">
-
-    <div class="col-md-2 col-sm-6 portfolio-item text-center">
-
-    </div>
-        <div class="col-md-2 col-sm-6 portfolio-item text-center">
-            <img class="img-fluid d-block mx-auto" src="../static/img/portfolio/pacman.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Pacman</h5>
-                <p class="card-text">Controle o pacman com as setas do seu teclado e divirta-se.</p>
-                <a href="#" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-6 portfolio-item">
-
-        </div>
-    </div>
-    </section>
-
-    <section class="bg-light page-section" id="sports">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">Esportes</h2>
-            <h3 class="section-subheading text-muted">Rápido, Fácil e prático.</h3>
-        </div>
-    </div>
-    <div class="row">
-
-    <div class="col-md-2 col-sm-6 portfolio-item text-center">
-
-    </div>
-        <div class="col-md-2 col-sm-6 portfolio-item text-center">
-            <img class="img-fluid d-block mx-auto" src="../static/img/portfolio/pacman.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Pacman</h5>
-                <p class="card-text">Controle o pacman com as setas do seu teclado e divirta-se.</p>
-                <a href="#" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-6 portfolio-item">
-
-        </div>
-    </div>
-    </section>
-
-    <section class="bg-light page-section" id="adventure">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">Aventura</h2>
-            <h3 class="section-subheading text-muted">Rápido, Fácil e prático.</h3>
-        </div>
-    </div>
-    <div class="row">
-
-    <div class="col-md-2 col-sm-6 portfolio-item text-center">
-
-    </div>
-        <div class="col-md-2 col-sm-6 portfolio-item text-center">
-            <img class="img-fluid d-block mx-auto" src="../static/img/portfolio/pacman.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Pacman</h5>
-                <p class="card-text">Controle o pacman com as setas do seu teclado e divirta-se.</p>
-                <a href="#" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-6 portfolio-item">
-
-        </div>
-    </div>
-    </section>
-
-    <section class="bg-light page-section" id="strategy">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">Strategia</h2>
-            <h3 class="section-subheading text-muted">Rápido, Fácil e prático.</h3>
-        </div>
-    </div>
-    <div class="row">
-
-    <div class="col-md-2 col-sm-6 portfolio-item text-center">
-
-    </div>
-        <div class="col-md-2 col-sm-6 portfolio-item text-center">
-            <img class="img-fluid d-block mx-auto" src="../static/img/portfolio/pacman.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Pacman</h5>
-                <p class="card-text">Controle o pacman com as setas do seu teclado e divirta-se.</p>
-                <a href="#" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a data-toggle="modal" href="#portfolioModal1" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-6 portfolio-item">
-            <img class="img-fluid d-block mx-lg-4" src="../static/img/portfolio/snack.png" alt="">
-            <div class="card-body text-center">
-                <h5 class="card-title">Snack</h5>
-                <p class="card-text">Controle o cobrinha com as setas do seu teclado e divirta-se.</p>
-                <a href="https://web-snack.herokuapp.com/" class="btn btn-primary">Play</a>
-            </div>
-        </div>
-        <div class="col-md-2 col-sm-6 portfolio-item">
-
-        </div>
-    </div>
-    </section>
 {% endblock %}
 
  {% block modal %}
+      <!-- Modal 3 -->
+<!-- Services -->
+    {% for categoria in categorias %}
 
-<!-- Modal 3 -->
-  <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="close-modal" data-dismiss="modal">
-          <div class="lr">
-            <div class="rl"></div>
-          </div>
-        </div>
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-8 mx-auto">
-              <div class="modal-body">
-                  <header>
-                      <h4>Clique na tela e divirta-se</h4>
-                  </header>
-                <!-- Project Details Go Here -->
-                <iframe src="https://web-snack.herokuapp.com/" height="500px" width="700px" style="border:0"></iframe>
-                <button class="btn btn-primary" data-dismiss="modal" type="button">
-                  <i class="fas fa-times"></i>
-                  Close Project</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        {% for row in games[categoria] %}
+           {% for game in row %}
+                 <div class="portfolio-modal modal fade" tabindex="-1" role="dialog" aria-hidden="true" id={{ game['nome'] }}>
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="close-modal" data-dismiss="modal">
+                          <div class="lr">
+                            <div class="rl"></div>
+                          </div>
+                        </div>
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-lg-8 mx-auto">
+                              <div class="modal-body">
+                                  <header>
+                                      <h4>Clique na tela e divirta-se</h4>
+                                  </header>
+                                <!-- Project Details Go Here -->
+                                <iframe height="500px" width="700px" style="border:0" src={{game['url']}}></iframe>
+                                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                  <i class="fas fa-times"></i>
+                                  Close Project</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+           {% endfor %}
+        {% endfor %}
+
+    {% endfor %}
+
 
 {% endblock %}
