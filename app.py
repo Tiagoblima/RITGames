@@ -177,7 +177,7 @@ def index(name=None):
 
 @app.route('/start/<username>', methods=['GET', 'POST'])
 def start(username):
-    user = get_user(get_cache(username))
+    user = json.loads(get_cache(username))
     return render_template('start.html', user=user)
 
 

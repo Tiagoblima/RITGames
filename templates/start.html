@@ -92,60 +92,47 @@
   <!-- Recent -->
   <section class="bg-light page-section" id="recent">
 
-      <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-            <h2 class="section-heading text-uppercase">Jogados Recentemente</h2>
-            <h3 class="section-subheading text-muted">Continue de onde parou.</h3>
-        </div>
-      </div>
-
       <div class="row">
-            <div class="container-fluid col-md-4 col-sm-6 float-left">
-
-                     <div class="">
-                          <div class="">
-                              <!-- Project Details Go Here -->
-                              <h2 class="text-uppercase">PAC-Man</h2>
-                              <p class="item-intro text-muted">.</p>
-                              <img class="img-fluid d-block mx-auto" src="../static/img/portfolio/pacman.png" alt="">
-                              <br>
-                              <button class="btn btn-outline-success">Histórico</button>
-                          </div>
-                     </div>
-
-            </div>
-
-            <div class="container-fluid col-md-4 col-sm-6">
-                <br>
-                <br>
-                <br>
-                <br>
-                <span class="alert alert-info">
-                    <h7 class="font-weight-bold">Score:</h7> 901
-                </span>
-                <br>
-                <br>
-                <span class="alert alert-info">
-                    <h7 class="font-weight-bold">Nível:</h7> Iniciante
-                </span>
-                <br>
-                <br>
-                <span class="alert alert-info">
-                    <h7 class="font-weight-bold">Último Acesso:</h7> Sexta-Feira
-                </span>
-                <br>
-                <br>
-                <button class="btn btn-info">Compartilhar</button>
-                <button class="btn btn-success">Continuar</button>
-            </div>
-
-        </div>
-
-
-          <div/>
+          <div class="col-lg-12 text-center">
+              <h2 class="section-heading text-uppercase">Chat&Play
+                  <i class="material-icons">question_answer</i>
+              </h2>
+              <h3 class="section-subheading text-muted">Continue de onde parou.</h3>
+          </div>
       </div>
-    </div>
+      <div class="row">
+          <div class="container-fluid col-4 col-md-2 col-sm-6 text-center">
+              <!-- Project Details Go Here -->
+              <h2 class="text-uppercase">Atividades Recentes</h2>
+
+              <div class="portfolio-item text-center">
+                      <br>
+                    <img class="img-fluid d-block mx-auto" src="../static/img/portfolio/pacman.png" alt="">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Pacman</h5>
+                        <div class="alert-info">Score: </div>
+                         <br>
+                        <br>
+                        <a  href="#" class="btn btn-primary text-dark">Play</a>
+                    </div>
+              </div>
+          </div>
+
+           <div class="col-6 col-md-6 col-sm-8 ">
+               <span class="fa-stack fa-4x">
+                <h5>
+                    Chat Online
+                  <i class="material-icons">question_answer</i>
+                </h5>
+
+                 <div class="container">
+                      <iframe  width="500px" height="500px" style="border:0" src={{ 'https://rit-chat.herokuapp.com/' + user['__token__'] }}></iframe>
+                  </div>
+            </span>
+          </div>
+
+      </div>
+
   </section>
 
   <!-- About -->
@@ -166,11 +153,11 @@
               </div>
               <div class="timeline-panel">
                 <div class="timeline-heading">
-                  <h4>Username</h4>
+                  <h4>{{ user['login'] }}</h4>
                   <div class="timeline-body">
                   <p class="text-muted">
                     <h4 class="subheading">
-                    <a href="#" class="badge badge-pill badge-info">Personalize</a>
+                    <div class="badge badge-pill badge-info">Bem-vindo</div>
                 </h4>
                     <h7 class="font-weight-bold text-success">seu Game Dashboard!</h7></p>
                 </div>
@@ -181,39 +168,6 @@
 
              <div class="container-fluid col-md-4 col-sm-6 float-left">
 
-                 <div class="">
-                      <div class="">
-                          <!-- Project Details Go Here -->
-                          <h4 class="text-uppercase">PAC-Man</h4>
-                          <img class="img-fluid d-block mx-auto" src="../static/img/portfolio/pacman.png" alt="">
-                          <br>
-                          <button class="btn btn-outline-success">Detalhes</button>
-                      </div>
-                 </div>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            </div>
-           <div class="container-fluid col-md-4 col-sm-6 float-left">
-
-                 <div class="">
-                      <div class="">
-                          <!-- Project Details Go Here -->
-                          <h4 class="text-uppercase">Palavras Cruzadas</h4>
-                          <img class="img-fluid d-block mx-auto" src="../static/img/portfolio/puzzle.jpg" alt="">
-                          <br>
-                          <button class="btn btn-outline-success">Detalhes</button>
-                      </div>
-                 </div>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
             </div>
             </li>
 
