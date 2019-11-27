@@ -67,15 +67,15 @@
          {{ user['nome'] }} <br>
          {{ user['email'] }} <br>
          </div>
-            <button class="btn btn-outline-primary float-left" data-toggle="modal" data-target="#editModalCenter">Alterar Cadastro</button>
-            <a class="btn btn-outline-success float-right"  role="button" href={{ "/dev.html/" + user.login }} >Perfil Developer</a>
+            <button class="btn btn-outline-primary float-left" data-toggle="modal" data-target="#editModalCenter">Alterar Game</button>
+            <a class="btn btn-outline-success float-right"  role="button" href={{ "/dev/" + user.login }}>Adicionar Game</a>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
               <i class="fa fa-window-close" aria-hidden="true"></i>
             <i class="fa fa-pencil-square-o"></i>
           </span>
-          <h4 class="service-heading"><a href={{ '/start/' + user.login }} class="btn btn-outline-dark" role="button">Deixar DevZone</a></h4>
+          <h4 class="service-heading"><a class="btn btn-outline-dark" role="button" href={{ '/start/' + user.login }}>Deixar DevZone</a></h4>
           <p class="text-muted">até o objetivo final!</p>
         </div>
       </div>
@@ -156,11 +156,11 @@
 
               <div class="timeline-panel">
                 <div class="timeline-heading">
-                  <h4>Username</h4>
+                  <h4>{{ user['login'] }}</h4>
                   <div class="timeline-body">
                   <p class="text-muted">
                     <h4 class="subheading">
-                    <a href="#" class="badge badge-pill badge-info">Adicione um Novo Jogo</a>
+                    <div class="badge badge-pill badge-info">Bem-vindo</div>
                 </h4>
                     <h6 class="font-weight-bold text-success">a sua Dev Dashboard!</h6>
                 </div>

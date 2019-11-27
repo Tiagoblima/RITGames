@@ -168,7 +168,7 @@ def index(name=None):
 
         if data[0]:
             cache_data(data[1]['login'], data[1])
-            return start(data[1]['login'])
+            return redirect('/start/' + data[1]['login'])
         else:
             flash("Login ou senha incorretos")
 
@@ -181,10 +181,9 @@ def start(username):
     return render_template('start.html', user=user)
 
 
-@app.route('/dev.html/<username>')
+@app.route('/dev/<username>')
 def dev(username):
-    user = get_user(get_cache(username))
-    print(user)
+    user = json.loads(get_cache(username))
     return render_template('dev.html', user=user)
 
 
