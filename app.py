@@ -90,15 +90,18 @@ def get_user(data):
 
 
 def do_login(username='', password=''):
-    response = requests.get("https://rit-bd.herokuapp.com/conta/logar/" + username + '/' + password)
+    user = ''
+    try:
+        user = get_cache(username)
+    except FileNotFoundError:
+        response = requests.get("https://rit-bd.herokuapp.com/conta/logar/" + username + '/' + password)
 
-    if response.status_code is 200:
-        user = response.content
-        try:
-            user_dic = json.loads(user)
-            return True, json.loads(user)
-        except json.decoder.JSONDecodeError:
-            pass
+        if response.status_code is 200:
+            user = response.content
+    try:
+        return True, json.loads(user)
+    except json.decoder.JSONDecodeError:
+        pass
 
     return False, "Login ou senha incorretos"
 
@@ -132,7 +135,7 @@ def cache_data(name, data):
 
 def delete_cache():
     for item in os.listdir(CACHE_PATH):
-        if item is not intern('package.json'):
+        if intern(item) is not intern('package.json'):
             os.remove(os.path.join(CACHE_PATH, item))
 
 
