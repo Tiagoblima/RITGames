@@ -43,7 +43,9 @@
                             <div class="card-body text-center">
                                 <h5 class="card-title text-capitalize">{{game['nome']}}</h5>
                                 <p class="card-text">{{ game['description'] }}</p>
-                                <button data-toggle="modal" class="btn btn-primary text-dark" data-target={{ '#' + game['nome'] }}>Play</button>
+                                <a href={{ game['url'] }}>
+                                    <button data-toggle="modal" class="btn btn-primary text-dark">Play</button>
+                                </a>
                             </div>
                         </div>
                    {% endfor %}
@@ -63,33 +65,7 @@
 
         {% for row in games[categoria] %}
            {% for game in row %}
-                 <div class="portfolio-modal modal fade" tabindex="-1" role="dialog" aria-hidden="true" id={{ game['nome'] }}>
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="close-modal" data-dismiss="modal">
-                          <div class="lr">
-                            <div class="rl"></div>
-                          </div>
-                        </div>
-                        <div class="container">
-                          <div class="row">
-                            <div class="col-lg-8 mx-auto">
-                              <div class="modal-body">
-                                  <header>
-                                      <h4>Clique na tela e divirta-se</h4>
-                                  </header>
-                                <!-- Project Details Go Here -->
-                                <iframe height="500px" width="700px" style="border:0" src={{game['url']}}></iframe>
-                                <button class="btn btn-primary" data-dismiss="modal" type="button">
-                                  <i class="fas fa-times"></i>
-                                  Close Project</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+
            {% endfor %}
         {% endfor %}
 
