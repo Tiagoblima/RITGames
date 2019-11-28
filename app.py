@@ -76,11 +76,11 @@ def games():
     return render_template('games.html', categorias=games_dic.keys(), games=games_dic)
 
 
-@app.route('/game_form',  methods=['GET', 'POST'])
-def game_form():
+@app.route('/game_form/<author>',  methods=['GET', 'POST'])
+def game_form(author):
     form = GameForm(request.form)
 
-    if form.validate_on_submit() :
+    if form.validate_on_submit():
         game = {
             "nome": form.name.data,
             "categoria": form.categoria.data,
@@ -93,6 +93,7 @@ def game_form():
         if form.description.data:
             game["description"] = form.description.data
 
+        game["autor"] = author
         flash(add_game(game))
     return render_template('game_form.html', form=form)
 
