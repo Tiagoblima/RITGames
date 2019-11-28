@@ -54,8 +54,8 @@
 
                  <div class="col-6">
                    <label for="selectFiled" class="font-weight-bold" >Selcione uma Categoria</label>
-                     <select class="form-control" id="selectFiled">
-                     {% for subfield in form.language %}
+                     <select class="form-control text-capitalize" id="selectFiled">
+                     {% for subfield in form.categoria %}
                          <option>{{ subfield.label }}</option>
                     {% endfor %}
                     </select>
