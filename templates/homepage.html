@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">RIT Games</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#profile">Perfil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#recent">Atividades</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+ {% endblock %}
+
+{% block header %}
+       <!-- Services -->
+  <section class="page-section" id="profile" >
+    <div class="container" >
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Profile</h2>
+          <h3 class="section-subheading text-muted">Curta nosso ambiente <i>RIT</i>.</h3>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-4">
+         <div class="team-member">
+            <img class="mx-auto rounded-circle" src="../static/img/about/1.jpg" alt="">
+            <h4>{{ user['login'] }}</h4>
+            <p class="text-muted">Tweet MSG</p>
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4" >
+         <br>
+         <br>
+         <br>
+         <div class="alert alert-primary" role="alert">
+         {{ user['nome'] }} <br>
+         {{ user['email'] }} <br>
+         </div>
+        </div>
+         <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+              <i class="fa fa-window-close" aria-hidden="true"></i>
+            <i class="fa fa-pencil-square-o"></i>
+          </span>
+          <h4 class="service-heading"><a href="/" class="btn btn-outline-dark" role="button">Deixar Homepage</a></h4>
+          <p class="text-muted">Voltar a página incial</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endblock %}
+
+  {% block  content%}
+
+  <!-- Recent -->
+  <section class="bg-light page-section" id="recent">
+
+      <div class="row">
+          <div class="col-lg-12 text-center">
+              <h2 class="section-heading text-uppercase">Atividades Recentes
+              </h2>
+              <h3 class="section-subheading text-muted">Tudo que {{ user['nome'] }} já fez</h3>
+          </div>
+      </div>
+      <div class="row">
+          <div class="container-fluid  col-4 col-md-4 col-sm-6 justify-content-center text-center">
+              <!-- Project Details Go Here -->
+              <div class="portfolio-item">
+                      <br>
+                    <img class="img-fluid d-block mx-auto" src="../static/img/portfolio/pacman.png" alt="">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Pacman</h5>
+                        <div class="alert-info">Score: </div>
+                         <br>
+                        <br>
+                        <a  href="#" class="btn btn-primary text-dark">Play</a>
+                    </div>
+              </div>
+          </div>
+
+      </div>
+
+  </section>
+
+{% endblock %}

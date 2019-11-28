@@ -84,11 +84,6 @@ def save_user(form):
         return "Erro ao cadastrar tente novamente"
 
 
-def get_user(data):
-    user = json.loads(data, object_hook=lambda d: namedtuple('USER', d.keys(), rename=True)(*d.values()))
-    return user
-
-
 def do_login(username='', password=''):
     user = ''
     try:
@@ -161,6 +156,17 @@ def format_games(dic):
     return games_dic
 
 
+def get_user(name):
+
+    response = requests.get('https://rit-bd.herokuapp.com/conta/get-nome/' + name.replace(' ', '%20'))
+    print(response.status_code)
+    print(response.content)
+    if response.status_code is 200:
+        return json.loads(response.content)
+
+    return {'msg': "Homepage unreachable"}
+
+
 @app.route('/games')
 def games():
     games_dic = format_games(get_games())
@@ -200,9 +206,9 @@ def index(name=None):
     return render_template('index.html', login=login, dir=CACHE_PATH)
 
 
-@app.route('/start/<username>', methods=['GET', 'POST'])
-def start(username):
-    user = json.loads(get_cache(username))
+@app.route('/start/<name>', methods=['GET', 'POST'])
+def start(name):
+    user = json.loads(get_cache(name))
     return render_template('start.html', user=user)
 
 
@@ -210,6 +216,12 @@ def start(username):
 def dev(username):
     user = json.loads(get_cache(username))
     return render_template('dev.html', user=user)
+
+
+@app.route('/<name>')
+def homepage(name):
+    print(get_user(name))
+    return render_template('homepage.html', user=get_user(name))
 
 
 @app.route('/register', methods=['GET', 'POST'])
