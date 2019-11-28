@@ -40,8 +40,9 @@ def do_login(username='', password=''):
 
 
 def add_game(game):
+    print(game)
     response = requests.post('https://rit-gameserver.herokuapp.com/games/add/', json=game)
-    return response.status_code
+    return json.loads(response.content)["msg"]
 
 
 def get_games():

@@ -76,19 +76,24 @@ def games():
     return render_template('games.html', categorias=games_dic.keys(), games=games_dic)
 
 
-@app.route('/game_form')
+@app.route('/game_form',  methods=['GET', 'POST'])
 def game_form():
     form = GameForm(request.form)
 
-    if form.is_submitted() and form.validate_on_submit():
+    if form.validate_on_submit() :
         game = {
             "nome": form.name.data,
             "categoria": form.categoria.data,
             "url": form.url_game.data,
-            "url_image": form.url_image.data,
-            "description": form.description.data
         }
-        add_game(game)
+
+        if form.url_image.data:
+            game["url_image"] = form.url_image.data
+
+        if form.description.data:
+            game["description"] = form.description.data
+
+        flash(add_game(game))
     return render_template('game_form.html', form=form)
 
 

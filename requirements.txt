@@ -21,6 +21,7 @@ gunicorn>=19.9.0
 npm
 nodejs
 requests
+flask-validator
 # Automated tests
 pytest==3.0.5
 pytest-cov==2.4.0

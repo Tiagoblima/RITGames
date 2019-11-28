@@ -1,8 +1,10 @@
+import re
+
 from flask import json
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
-from wtforms.validators import DataRequired, Email, EqualTo
-
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
+from flask_validator import *
 from util.util import format_games
 
 
@@ -39,23 +41,36 @@ class LoginForm(FlaskForm):
 from util.connection import get_games
 
 
+def validate_url(form, field):
+    regex = re.compile(
+        r'^(?:http|ftp)s?://'  # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
+        r'localhost|'  # localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
+        r'(?::\d+)?'  # optional port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+
+    if not re.match(regex, field.data):
+        raise ValidationError("URL inválido")
+
+
 class GameForm(FlaskForm):
     tipo = 'gameForm'
-    name = StringField('inputName')
+    name = StringField('inputName',  validators=[DataRequired(message='Campo Obrigatório')])
     games = format_games(get_games())
     choices = [(category, category) for category in games.keys()]
-    categoria = SelectField(u'selectFiled', choices=choices)
+
+    categoria = SelectField(u'selectFiled', choices=choices, coerce=str,  validators=[DataRequired(message='Campo Obrigatório')])
 
     url_game = StringField('inputUrlGame',
-                           validators=[DataRequired(message='Campo Obrigatório')])
+                           validators=[DataRequired(message='Campo Obrigatório'), validate_url])
 
-    url_image = StringField('inputUrlImage')
+    url_image = StringField('inputUrlImage', validators=[validate_url])
 
     description = TextAreaField('description')
     agree = BooleanField('Agree', validators=[DataRequired(message="Você deve concordar com os termos")])
 
     submit = SubmitField('Cadastrar')
-
 
 
 class User:
