@@ -39,8 +39,14 @@ def do_login(username='', password=''):
     return False, "Login ou senha incorretos"
 
 
+def add_game(game):
+    response = requests.post('https://rit-gameserver.herokuapp.com/games/add/', json=game)
+    return response.status_code
+
+
 def get_games():
     response = requests.get('https://rit-gameserver.herokuapp.com/games/')
+    print(response.content)
     return json.loads(response.content)
 
 

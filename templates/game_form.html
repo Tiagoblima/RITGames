@@ -71,7 +71,7 @@
 
                  <div class="col-6">
                   <label for="inputEmail" class="font-weight-bold">Url Imagem</label>
-                   {{ form.url_image(type="text", class="form-control", id="inputUrlGame", placeholder="Url da imagem do jogo") }}
+                   {{ form.url_image(type="text", class="form-control", id="inputUrlImage", placeholder="Url da imagem do jogo") }}
                     {% for error in form.url_image.errors %}
                         <span class="alert-danger">{{ error + '*'}}</span>
                      {% endfor %}

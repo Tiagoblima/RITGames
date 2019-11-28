@@ -8,7 +8,7 @@ from flask import flash, redirect
 from flask import render_template
 from past.types import basestring
 from util.config import Config
-from util.connection import get_games, do_login, get_user, save_user
+from util.connection import get_games, do_login, get_user, save_user, add_game
 from forms import RegistrationForm, User, LoginForm, GameForm
 from util.util import format_games, delete_cache, cache_data, get_cache
 
@@ -79,6 +79,16 @@ def games():
 @app.route('/game_form')
 def game_form():
     form = GameForm(request.form)
+
+    if form.is_submitted() and form.validate_on_submit():
+        game = {
+            "nome": form.name.data,
+            "categoria": form.categoria.data,
+            "url": form.url_game.data,
+            "url_image": form.url_image.data,
+            "description": form.description.data
+        }
+        add_game(game)
     return render_template('game_form.html', form=form)
 
 
