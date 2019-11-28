@@ -1,3 +1,4 @@
+wtforms
 future
 
 # This file is used by pip to install required python packages
