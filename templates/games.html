@@ -43,7 +43,7 @@
                             <div class="card-body text-center">
                                 <h5 class="card-title text-capitalize">{{game['nome']}}</h5>
                                 <p class="card-text">{{ game['description'] }}</p>
-                                <a href={{ game['url'] }}>
+                                <a href={{ 'game_page/' + game['_id'] }}>
                                     <button data-toggle="modal" class="btn btn-primary text-dark">Play</button>
                                 </a>
                             </div>

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">RIT Games</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#services">CommentZone</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#portfolio">SAIR</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+ {% endblock %}
+
+{% block header %}
+    <!-- Header -->
+  <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <iframe  width="800px" height="600px" style="border:0" src={{ game['url'] }}></iframe>
+      </div>
+    </div>
+  </header>
+{% endblock %}
+
+

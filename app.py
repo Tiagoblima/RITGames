@@ -106,10 +106,8 @@ def get_games():
     return json.loads(response.content)
 
 
-def get_game(name, category):
-    response = requests.get('https://rit-gameserver.herokuapp.com/games/' +
-                            name + '/' +
-                            category + '/')
+def get_game(_id):
+    response = requests.get('https://rit-gameserver.herokuapp.com/games/' + _id)
     return response
 
 
@@ -157,7 +155,6 @@ def format_games(dic):
 
 
 def get_user(name):
-
     response = requests.get('https://rit-bd.herokuapp.com/conta/get-nome/' + name.replace(' ', '%20'))
     print(response.status_code)
     print(response.content)
@@ -167,11 +164,15 @@ def get_user(name):
     return {'msg': "Homepage unreachable"}
 
 
+@app.route('/game_page/<_id>')
+def game_page(_id):
+    games_dic = get_games()
+    return render_template('game_page.html', game=games_dic[str(_id)])
+
+
 @app.route('/games')
 def games():
     games_dic = format_games(get_games())
-    print(games_dic)
-    print(len(games_dic['aventura'][0]))
     return render_template('games.html', categorias=games_dic.keys(), games=games_dic,
                            row_lim=4, game_count=0)
 
