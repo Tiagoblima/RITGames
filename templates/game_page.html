@@ -4,7 +4,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">RIT Games</a>
+      <a class="navbar-brand js-scroll-trigger" href="/">RIT Games</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
@@ -12,26 +12,71 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav text-uppercase ml-auto">
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#services">CommentZone</a>
+            <a class="nav-link js-scroll-trigger" href="#comment">CommentZone</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#portfolio">SAIR</a>
+            <a class="nav-link js-scroll-trigger" href="/games">SAIR</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
  {% endblock %}
-
 {% block header %}
     <!-- Header -->
   <header class="masthead">
     <div class="container">
       <div class="intro-text">
-        <iframe  width="800px" height="600px" style="border:0" src={{ game['url'] }}></iframe>
+          <div class="embed-responsive embed-responsive-16by9">
+              <iframe  width="800px" height="600px" style="border:0" src={{ game['url'] }}></iframe>
+          </div>
       </div>
     </div>
   </header>
+{% endblock %}
+
+{% block content %}
+
+ <section class="bg-light page-section" id="comment">
+
+      <div class="row">
+          <div class="col-lg-12 text-center">
+              <h2 class="section-heading text-uppercase">Deixe o seu comentário
+                  <i class="material-icons">question_answer</i>
+              </h2>
+          </div>
+      </div>
+      <div class="row">
+          <div class="container-fluid col-4 col-md-2 col-sm-6 text-center">
+              <div class="portfolio-item text-center">
+                      <br>
+                     <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Seu feedback é importante ;)</label>
+                        <textarea maxlength="100" class="form-control" id="exampleFormControlTextarea1" cols="12" rows="4"></textarea>
+                         <br>
+                         <button type="submit" class="btn btn-success">Enviar</button>
+                     </div>
+              </div>
+          </div>
+
+           <div class="col-6 col-md-6 col-sm-8 ">
+               <span class="fa-stack fa-4x">
+                <h5>
+                    Comentários
+                  <i class="material-icons">question_answer</i>
+                </h5>
+
+                 {% for comment in comments %}
+                  <div class="container">
+                      <div class="alert-info">comment</div>
+                  </div>
+                {% endfor %}
+                </span>
+            </div>
+
+      </div>
+
+  </section>
 {% endblock %}
 
 
