@@ -4,7 +4,7 @@
     <!-- Navigation -->
       <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
         <div class="container">
-          <a class="navbar-brand js-scroll-trigger" href="#page-top">RIT Games</a>
+          <a class="navbar-brand js-scroll-trigger" href="/">RIT Games</a>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -68,7 +68,7 @@
          {{ user['email'] }} <br>
          </div>
             <button class="btn btn-outline-primary float-left" data-toggle="modal" data-target="#editModalCenter">Alterar Game</button>
-            <a class="btn btn-outline-success float-right"  role="button" href={{ "/dev/" + user.login }}>Adicionar Game</a>
+            <button class="btn btn-outline-success float-right" data-toggle="modal" data-target="#formGameModalCenter">Adicionar Game</button>
         </div>
         <div class="col-md-4">
           <span class="fa-stack fa-4x">
@@ -206,8 +206,8 @@
 
 
   {% block modal %}
-      <!-- Form Modal -->
-    <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+       <!-- Form Modal -->
+    <div class="modal fade" id="formGameModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -216,72 +216,14 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-             <div class="container align-content-center">
-
-                <form class="row">
-
-                 <div class="row">
-
-                     <div class="col-6">
-                          <label for="validationServerUsername" class="font-weight-bold">Username</label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text" id="inputGroupPrepend3">@</span>
-                            </div>
-                            <input type="text" class="form-control" id="validationServerUsername" placeholder="Username" aria-describedby="inputGroupPrepend3">
-                            <div class="invalid-feedback">
-                              Por favor escolha um username que não tenha sido usado.
-                            </div>
-                      </div>
-                    </div>
-
-                     <div class="col-6">
-                          <label for="validationServerEmail" class="font-weight-bold">E-mail</label>
-                          <input type="text" class="form-control" id="validationServerEmail" placeholder="E-mail">
-                          <div class="invalid-feedback">
-                             Por favor escolha um e-mail que não tenha sido usado.
-                          </div>
-                     </div>
-
-                    <div class="col-6">
-                        <button type="submit" class="btn btn-secondary btn-sm">Alterar Login</button>
-                    </div>
-
-                     <div class="col-6">
-                         <button type="submit" class="btn btn-secondary btn-sm">Alterar E-mail</button>
-                     </div>
-                     <br>
-                     <br>
-                     <div class="col-6">
-                         <label for="inputPassword1" class="font-weight-bold">Senha Atual</label>
-                         <input type="password" class="form-control" id="inputPassword1" required>
-                         <br>
-                     </div>
-                    <div class="alert alert-dark col-6" role="alert">
-                        Escolha uma senha contendo simbolos e letras
-                    </div>
-                     <div class="col-6">
-                         <label for="inputPassword1" class="font-weight-bold">Crie uma Senha</label>
-                         <input type="password" class="form-control" id="inputPassword1">
-                         <br>
-                         <button type="submit" class="float-left btn btn-secondary btn-sm">Alterar Senha</button>
-                     </div>
-                     <div class="col-6">
-                         <label for="inputPassword1" class="font-weight-bold">Confirme a Senha</label>
-                         <input type="password" class="form-control" id="inputPassword1">
-                         <br>
-
-                      </div>
-
-                     </div>
-
-                </form>
-              </div>
+          <div class="modal-body justify-content-center">
+              <iframe src="/game_form" height="400px" width="450px" style="border:0; overflow:hidden" ></iframe>
           </div>
+
         </div>
       </div>
     </div>
+
 
    <!-- Login Modal -->
     <div class="modal fade" id="loginModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
