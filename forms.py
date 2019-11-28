@@ -1,7 +1,10 @@
 from flask import json
+from flask_restful.fields import Url
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo
+
+from util.util import format_games
 
 
 class RegistrationForm(FlaskForm):
@@ -22,7 +25,6 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-
     username = StringField('inputLogin', validators=[DataRequired(message='Campo Obrigatório')])
     password = PasswordField('inputPassword', validators=[DataRequired(message='Campo Obrigatório')])
     submit = SubmitField('Login')
@@ -33,6 +35,31 @@ class LoginForm(FlaskForm):
         # str_json.replace("'", "\"")
 
         return str_json
+
+
+from util.connection import get_games
+
+
+class GameForm(FlaskForm):
+    tipo = 'gameForm'
+    name = StringField('inputName')
+    games = format_games(get_games())
+    choices = [(category, category) for category in games.keys()]
+    language = SelectField(u'selectFiled', choices=choices)
+
+    url_game = StringField('inputUrlGame',
+                           validators=[DataRequired(message='Campo Obrigatório'), Url('Url inválido')])
+
+    url_image = StringField('Username', validators=[Url('Url inválido')])
+    password = PasswordField('inputPassword1',
+                             validators=[DataRequired(message='Campo Obrigatório'),
+                                         EqualTo('confirm_pass', 'As senhas devem ser iguais')])
+
+    description = TextAreaField('description')
+    agree = BooleanField('Agree', validators=[DataRequired(message="Você deve concordar com os termos")])
+
+    submit = SubmitField('Cadastrar')
+    login = SubmitField('Login')
 
 
 class User:

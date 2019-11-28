@@ -1,27 +1,21 @@
 import json
 import os
-from sys import intern
 
-import requests
-from collections import namedtuple
 from datetime import timedelta
 from functools import update_wrapper
 from flask import Flask, make_response, request, current_app
 from flask import flash, redirect
 from flask import render_template
 from past.types import basestring
-from config import Config
-from connection import Connection
-from forms import RegistrationForm, User, LoginForm
-from server import Server
+from util.config import Config
+from util.connection import get_games, do_login, get_user, save_user
+from forms import RegistrationForm, User, LoginForm, GameForm
+from util.util import format_games, delete_cache, cache_data, get_cache
 
 app = Flask(__name__, template_folder='templates')
 app.debug = 'DEBUG' in os.environ
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_object(Config)
-
-sender = Connection()
-sender.set_dest_port(os.environ.get("PORT"))
 
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_to_all=True, automatic_options=True):
@@ -67,101 +61,7 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_t
 
 # Standard loopback interface address (localhost)
 PORT = os.environ.get("PORT")  # Port to listen on (non-privileged ports are > 1023)
-
-
-def save_user(form):
-    response = requests.post("https://rit-bd.herokuapp.com/conta/cadastrar/" +
-                             form.first_name.data + ' ' + form.last_name.data + '/' +
-                             form.username.data + '/' +
-                             form.password.data + '/' +
-                             form.email.data + '/' + 'user')
-
-    print(response.status_code)
-
-    if response.status_code is 200:
-        return "Cadastro Realizado com sucesso!"
-    else:
-        return "Erro ao cadastrar tente novamente"
-
-
-def do_login(username='', password=''):
-    user = ''
-    try:
-        user = get_cache(username)
-    except FileNotFoundError:
-        response = requests.get("https://rit-bd.herokuapp.com/conta/logar/" + username + '/' + password)
-
-        if response.status_code is 200:
-            user = response.content
-    try:
-        return True, json.loads(user)
-    except json.decoder.JSONDecodeError:
-        pass
-
-    return False, "Login ou senha incorretos"
-
-
-def get_games():
-    response = requests.get('https://rit-gameserver.herokuapp.com/games/')
-    return json.loads(response.content)
-
-
-def get_game(_id):
-    response = requests.get('https://rit-gameserver.herokuapp.com/games/' + _id)
-    return response
-
-
 CACHE_PATH = os.path.join(os.getcwd(), 'cache/')
-
-
-def get_cache(name):
-    path = os.path.join(CACHE_PATH, name + '.json')
-    with open(path, 'r') as file:
-        return file.read()
-
-
-def cache_data(name, data):
-    path = os.path.join(CACHE_PATH, name + '.json')
-    with open(path, 'w') as file:
-        file.write(json.dumps(data))
-
-
-def delete_cache():
-    for item in os.listdir(CACHE_PATH):
-        if intern(item) is not intern('package.json'):
-            os.remove(os.path.join(CACHE_PATH, item))
-
-
-def format_games(dic):
-    games_dic = {}
-
-    for game, _id in zip(dic.values(), dic.keys()):
-
-        game['_id'] = str(_id)
-        try:
-            inside = False
-            for row in games_dic[game['categoria']]:
-                if len(row) <= 4:
-                    row.append(game)
-                    inside = True
-
-            if not inside:
-                games_dic[game['categoria']].append([game])
-
-        except KeyError:
-            games_dic[game['categoria']] = [[game]]
-
-    return games_dic
-
-
-def get_user(name):
-    response = requests.get('https://rit-bd.herokuapp.com/conta/get-nome/' + name.replace(' ', '%20'))
-    print(response.status_code)
-    print(response.content)
-    if response.status_code is 200:
-        return json.loads(response.content)
-
-    return {'msg': "Homepage unreachable"}
 
 
 @app.route('/game_page/<_id>')
@@ -173,8 +73,13 @@ def game_page(_id):
 @app.route('/games')
 def games():
     games_dic = format_games(get_games())
-    return render_template('games.html', categorias=games_dic.keys(), games=games_dic,
-                           row_lim=4, game_count=0)
+    return render_template('games.html', categorias=games_dic.keys(), games=games_dic)
+
+
+@app.route('/game_form')
+def game_form():
+    form = GameForm(request.form)
+    return render_template('game_form.html', form=form)
 
 
 @app.after_request
