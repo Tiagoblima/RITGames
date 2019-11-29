@@ -160,8 +160,11 @@ def homepage(name):
         flash(user["msg"])
     except KeyError:
         author_games = get_games_by_author(user["login"])
-        game_dashboard = format_games(author_games)
-
+        try:
+            game_dashboard = format_games(author_games)
+        except TypeError:
+            pass
+        
         return render_template('homepage.html', user=user, games=game_dashboard, categorias=game_dashboard.keys())
 
     return render_template('homepage.html', user=user)
