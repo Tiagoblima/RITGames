@@ -34,7 +34,7 @@ def do_login(username='', password=''):
                 return True, json.loads(response.content)
             except json.decoder.JSONDecodeError:
                 return False, {"msg": "Login ou senha incorretos"}
-  
+
     return False, {"msg": "Servidor Indisponível\nstatus code: {}".format(response.status_code)}
 
 

@@ -151,7 +151,7 @@ def dev(username):
     return render_template('dev.html', user=user)
 
 
-@app.route('/<name>')
+@app.route('/user/<name>')
 def homepage(name):
     user = get_user(name)
     print(user)
