@@ -23,20 +23,19 @@ def save_user(form):
 
 
 def do_login(username='', password=''):
-    user = ''
+
     try:
-        user = get_cache(username)
+        return get_cache(username)
     except FileNotFoundError:
         response = requests.get("https://rit-bd.herokuapp.com/conta/logar/" + username + '/' + password)
 
         if response.status_code is 200:
-            user = response.content
-    try:
-        return True, json.loads(user)
-    except json.decoder.JSONDecodeError:
-        pass
-
-    return False, "Login ou senha incorretos"
+            try:
+                return True, json.loads(response.content)
+            except json.decoder.JSONDecodeError:
+                return False, {"msg": "Login ou senha incorretos"}
+  
+    return False, {"msg": "Servidor Indisponível\nstatus code: {}".format(response.status_code)}
 
 
 def add_game(game):
@@ -46,7 +45,6 @@ def add_game(game):
 
 
 def get_games_by_author(author):
-
     response = requests.get('https://rit-gameserver.herokuapp.com/games/' + author)
     print(response.content)
     try:
@@ -54,6 +52,7 @@ def get_games_by_author(author):
         return json.loads(response.content)
     except json.decoder.JSONDecodeError:
         return {"msg": "Erro ao carregar Dashboard"}
+
 
 def get_games():
     response = requests.get('https://rit-gameserver.herokuapp.com/games/')

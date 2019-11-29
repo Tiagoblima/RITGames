@@ -121,12 +121,12 @@ def index(name=None):
     if login.is_submitted():
         print(login.username.data + '/' + login.password.data)
         data = do_login(login.username.data, login.password.data)
-
+        print(data)
         if data[0]:
             cache_data(data[1]['login'], data[1])
             return redirect('/start/' + data[1]['login'])
         else:
-            flash("Login ou senha incorretos")
+            flash(data[1]["msg"])
 
     return render_template('index.html', login=login, dir=CACHE_PATH)
 
@@ -153,8 +153,18 @@ def dev(username):
 
 @app.route('/<name>')
 def homepage(name):
-    print(get_user(name))
-    return render_template('homepage.html', user=get_user(name))
+    user = get_user(name)
+    print(user)
+
+    try:
+        flash(user["msg"])
+    except KeyError:
+        author_games = get_games_by_author(user["login"])
+        game_dashboard = format_games(author_games)
+
+        return render_template('homepage.html', user=user, games=game_dashboard, categorias=game_dashboard.keys())
+
+    return render_template('homepage.html', user=user)
 
 
 @app.route('/register', methods=['GET', 'POST'])
