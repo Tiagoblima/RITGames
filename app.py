@@ -162,11 +162,10 @@ def homepage(name):
         author_games = get_games_by_author(user["login"])
         try:
             game_dashboard = format_games(author_games)
+             return render_template('homepage.html', user=user, games=game_dashboard, categorias=game_dashboard.keys())
         except TypeError:
             pass
         
-        return render_template('homepage.html', user=user, games=game_dashboard, categorias=game_dashboard.keys())
-
     return render_template('homepage.html', user=user)
 
 
