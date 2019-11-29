@@ -27,7 +27,7 @@
 <body>
 <div class="container justify-content-center" id="formRegister">
 
-         <form action="/game_form" method="post" class="row">
+         <form method="post" class="row" action={{ "/game_form/" + author}}>
                 {{ form.hidden_tag() }}
              <div class="row">
              {% with messages = get_flashed_messages() %}

@@ -8,7 +8,7 @@ from flask import flash, redirect
 from flask import render_template
 from past.types import basestring
 from util.config import Config
-from util.connection import get_games, do_login, get_user, save_user, add_game
+from util.connection import get_games, do_login, get_user, save_user, add_game, get_games_by_author
 from forms import RegistrationForm, User, LoginForm, GameForm
 from util.util import format_games, delete_cache, cache_data, get_cache
 
@@ -76,11 +76,12 @@ def games():
     return render_template('games.html', categorias=games_dic.keys(), games=games_dic)
 
 
-@app.route('/game_form/<author>',  methods=['GET', 'POST'])
-def game_form(author):
+@app.route('/game_form/<username>', methods=['GET', 'POST'])
+def game_form(username):
     form = GameForm(request.form)
-
+    print("request: ", request.method)
     if form.validate_on_submit():
+
         game = {
             "nome": form.name.data,
             "categoria": form.categoria.data,
@@ -93,9 +94,11 @@ def game_form(author):
         if form.description.data:
             game["description"] = form.description.data
 
-        game["autor"] = author
+        game["autor"] = username
+
         flash(add_game(game))
-    return render_template('game_form.html', form=form)
+
+    return render_template('game_form.html', form=form, author=username)
 
 
 @app.after_request
@@ -137,6 +140,14 @@ def start(name):
 @app.route('/dev/<username>')
 def dev(username):
     user = json.loads(get_cache(username))
+    author_games = get_games_by_author(user["login"])
+    try:
+        flash(author_games["msg"])
+    except KeyError:
+        game_dashboard = format_games(author_games)
+
+        return render_template('dev.html', user=user, games=game_dashboard, categorias=game_dashboard.keys())
+
     return render_template('dev.html', user=user)
 
 

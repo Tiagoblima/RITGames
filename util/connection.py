@@ -45,6 +45,16 @@ def add_game(game):
     return json.loads(response.content)["msg"]
 
 
+def get_games_by_author(author):
+
+    response = requests.get('https://rit-gameserver.herokuapp.com/games/' + author)
+    print(response.content)
+    try:
+
+        return json.loads(response.content)
+    except json.decoder.JSONDecodeError:
+        return {"msg": "Erro ao carregar Dashboard"}
+
 def get_games():
     response = requests.get('https://rit-gameserver.herokuapp.com/games/')
     print(response.content)
