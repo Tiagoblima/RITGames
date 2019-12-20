@@ -1,25 +1,21 @@
+import json
 import os
-from collections import namedtuple
+
 from datetime import timedelta
 from functools import update_wrapper
-from flask import Flask, url_for, flash, redirect, request
-from flask import render_template
 from flask import Flask, make_response, request, current_app
+from flask import flash, redirect
+from flask import render_template
 from past.types import basestring
-from server import connection, Server
-from config import Config
-from forms import RegistrationForm, User, LoginForm
-from connection import Connection
-from server import Server
-from config import Config
-from forms import Form
+from util.config import Config
+from util.connection import get_games, do_login, get_user, save_user, add_game, get_games_by_author
+from forms import RegistrationForm, User, LoginForm, GameForm
+from util.util import format_games, delete_cache, cache_data, get_cache
+
 app = Flask(__name__, template_folder='templates')
 app.debug = 'DEBUG' in os.environ
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_object(Config)
-
-sender = Connection()
-sender.set_dest_port(os.environ.get("PORT"))
 
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_to_all=True, automatic_options=True):
@@ -63,59 +59,46 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_t
     return decorator
 
 
-HOST = '0.0.0.0'  # Standard loopback interface address (localhost)
+# Standard loopback interface address (localhost)
 PORT = os.environ.get("PORT")  # Port to listen on (non-privileged ports are > 1023)
+CACHE_PATH = os.path.join(os.getcwd(), 'cache/')
 
 
-def save_user(form):
-    flash("Cadastro Realizado com sucesso!")
-    user = User(form.first_name.data + ' ' + form.last_name.data,
-                form.username.data.replace('.', '_'),
-                form.email.data.replace('.', '_'),
-                form.password.data)
-
-    sender.send_obj("\"" + user.to_json().replace("\'", '') + "\"")
+@app.route('/game_page/<_id>')
+def game_page(_id):
+    games_dic = get_games()
+    return render_template('game_page.html', game=games_dic[str(_id)])
 
 
-def get_user(data):
-    user = json.loads(data, object_hook=lambda d: namedtuple('USER', d.keys())(*d.values()))
-
-    with open(user.username + '.json', 'w') as file:
-        j_data = json.dumps(user, indent=4, separators=(',', ': '))
-        s = json.dumps(j_data, indent=4, sort_keys=True)
-
-        file.write(s)
-    return user
+@app.route('/games')
+def games():
+    games_dic = format_games(get_games())
+    return render_template('games.html', categorias=games_dic.keys(), games=games_dic)
 
 
-def do_login(conn=Server(), username='', password=''):
-    login = LoginForm(request.form)
-    if login.is_submitted():
-        print('Hello World')
-        print(login.to_json())
+@app.route('/game_form/<username>', methods=['GET', 'POST'])
+def game_form(username):
+    form = GameForm(request.form)
+    print("request: ", request.method)
+    if form.validate_on_submit():
 
-        sender.send_obj(login.to_json())
+        game = {
+            "nome": form.name.data,
+            "categoria": form.categoria.data,
+            "url": form.url_game.data,
+        }
 
-    user = None
-    try:
-        file = open(username + '.json', 'r')
-        data = file.read()
-        get_user(data)
-    except FileNotFoundError:
-        print(conn)
+        if form.url_image.data:
+            game["url_image"] = form.url_image.data
 
-        try:
-            data = conn.listen(6748)
-            data_dic = json.loads(data)
-            if data_dic['type'] is 404:
-                return False, data_dic['msg']
-            user = get_user(data)
-        except OSError:
-            conn.close()
-            flash('Aguardando reposta do servidor')
-            pass
+        if form.description.data:
+            game["description"] = form.description.data
 
-    return True, user
+        game["autor"] = username
+
+        flash(add_game(game))
+
+    return render_template('game_form.html', form=form, author=username)
 
 
 @app.after_request
@@ -124,24 +107,75 @@ def add_headers(response):
     return response
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
+def run_start():
+    return index()
+
+
+@app.route('/index', methods=['GET', 'POST'])
 def index(name=None):
-    return render_template('index.html')
+    delete_cache()
+    login = LoginForm(request.form)
+
+    user = User()
+    if login.is_submitted():
+        print(login.username.data + '/' + login.password.data)
+        data = do_login(login.username.data, login.password.data)
+        print(data)
+        if data[0]:
+            cache_data(data[1]['login'], data[1])
+            return redirect('/start/' + data[1]['login'])
+        else:
+            flash(data[1]["msg"])
+
+    return render_template('index.html', login=login, dir=CACHE_PATH)
 
 
-@app.route('/start', methods=['GET', 'POST'])
-def start(username=None):
-    user = do_login()
+@app.route('/start/<name>', methods=['GET', 'POST'])
+def start(name):
+    user = json.loads(get_cache(name))
     return render_template('start.html', user=user)
+
+
+@app.route('/dev/<username>')
+def dev(username):
+    user = json.loads(get_cache(username))
+    author_games = get_games_by_author(user["login"])
+    try:
+        flash(author_games["msg"])
+    except KeyError:
+        game_dashboard = format_games(author_games)
+
+        return render_template('dev.html', user=user, games=game_dashboard, categorias=game_dashboard.keys())
+
+    return render_template('dev.html', user=user)
+
+
+@app.route('/user/<name>')
+def homepage(name):
+    user = get_user(name)
+    print(user)
+
+    try:
+        flash(user["msg"])
+    except KeyError:
+        author_games = get_games_by_author(user["login"])
+        try:
+            game_dashboard = format_games(author_games)
+            return render_template('homepage.html', user=user, games=game_dashboard, categorias=game_dashboard.keys())
+        except TypeError:
+            pass
+        
+    return render_template('homepage.html', user=user)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
     if form.is_submitted():
         if form.validate_on_submit():
-            save_user(form)
-        else:
-            flash("Cadastro não pôde ser realizado.")
+            msg = save_user(form)
+            flash(msg)
     return render_template('auth/register.html', form=form)
 
 
@@ -150,11 +184,13 @@ def login():
     login = LoginForm(request.form)
     if login.is_submitted():
         result, data = do_login(username=login.username.data, password=login.password.data)
-        if result:
+        if not result:
             flash(data)
         else:
             flash('Login realizado!')
+
     return render_template('auth/login.html', login=login)
 
 
-
+if __name__ == '__main__':
+    app.run(debug=True)

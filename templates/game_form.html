@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>RIT Games :)</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="../static/css/agency.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container justify-content-center" id="formRegister">
+
+     <form method="post" class="row" action={{ "/game_form/" + author}}>
+            {{ form.hidden_tag() }}
+         <div class="row">
+         {% with messages = get_flashed_messages() %}
+            {% if messages[0] == "Cadastro Realizado com sucesso!" %}
+                    <div class="alert alert-success" role="alert">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                     </div>
+                {% elif messages %}
+                     <div class="alert alert-danger" role="alert">
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                     </div>
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+              <br>
+            <div class="col-6">
+                <label for="inputFirstName" class="font-weight-bold">Nome do Jogo</label>
+                {{ form.name(type='text', class='form-control', id='inputName') }}
+            </div>
+
+             <div class="col-6">
+
+               <label for="selectFiled" class="font-weight-bold" >Selcione uma Categoria</label>
+                 {{ form.categoria(class="form-control text-capitalize", id="selectFiled") }}
+              </div>
+
+           <div class="col-6">
+              <label for="inputEmail" class="font-weight-bold">Url</label>
+               {{ form.url_game(type="text", class="form-control", id="inputUrlGame", placeholder="Url do jogo") }}
+                {% for error in form.url_game.errors %}
+                    <span class="alert-danger">{{ error + '*'}}</span>
+                 {% endfor %}
+           </div>
+
+             <div class="col-6">
+              <label for="inputEmail" class="font-weight-bold">Url Imagem</label>
+               {{ form.url_image(type="text", class="form-control", id="inputUrlImage", placeholder="Url da imagem do jogo") }}
+                {% for error in form.url_image.errors %}
+                    <span class="alert-danger">{{ error + '*'}}</span>
+                 {% endfor %}
+             </div>
+
+            <div class="container-fluid">
+              <div class="portfolio-item float-left">
+                      <br>
+                     <div class="form-group">
+                        <label for="description">Uma breve descrição</label>
+                         {{ form.description(maxlength="75", class="form-control", id="description", cols="12",
+                          rows="2") }}
+                     </div>
+              </div>
+                <div class="custom-control custom-checkbox mr-sm-2 float-right">
+                    <br>
+                    <br>
+                    <br>
+                     {{ form.agree(type="checkbox", class="custom-control-input", id="Agree") }}
+                  <label class="custom-control-label" for="Agree">Concordo com os termos</label>
+                  <br>
+                  <a href="#" class="badge badge-pill badge-primary text-white">Nossos termos</a>
+                </div>
+            </div>
+
+         </div>
+          <div class="col-md-4 text-center">
+              <br>
+              <div class="custom-control custom-checkbox mr-sm-2" >
+            </div>
+              {{ form.submit(type="submit", class="btn btn-success btn-lg", id='Cadastrar') }}
+          </div>
+     </form>
+</div>
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+
+{% block nav %}
+<!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">RIT Games</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase ml-auto">
+            {% for categoria in categorias %}
+              <li class="nav-item">
+                <a class="nav-link js-scroll-trigger text-uppercase" href={{ '#' + categoria }}>{{categoria}}</a>
+              </li>
+            {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+{% endblock %}
+
+{% block content %}
+
+    <!-- Services -->
+    {% for categoria in categorias %}
+        <section class="bg-light page-section" id={{categoria}}>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase">{{categoria}}</h2>
+                <h3 class="section-subheading text-muted">Rápido, Fácil e prático.</h3>
+            </div>
+        </div>
+
+            {% for row in games[categoria] %}
+              <div class="d-flex justify-content-center">
+               {% for game in row %}
+                         <div class="col-md-2 col-sm-6 portfolio-item text-center">
+                            <img class="img-fluid d-block mx-lg-4" alt="" src={{ game['url_image'] }} >
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-capitalize">{{game['nome']}}</h5>
+                                <p class="card-text">{{ game['description'] }}</p>
+                                <a href={{ 'game_page/' + game['_id'] }}>
+                                    <button data-toggle="modal" class="btn btn-primary text-dark">Play</button>
+                                </a>
+                            </div>
+                        </div>
+                   {% endfor %}
+              </div>
+
+            {% endfor %}
+
+        </section>
+    {% endfor %}
+
+{% endblock %}
+
+{% block modal %}
+
+{% endblock %}
