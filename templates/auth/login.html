@@ -26,10 +26,23 @@
 
     <div class="container align-content-center">
 
-        <form class="row" action="/start" method="post" novalidate>
+        <form class="row" action="/login" method="post" novalidate>
 
          <div class="row">
-
+            {% with messages = get_flashed_messages() %}
+                {% if messages[0] == "Login realizado!" %}
+                        <div class="alert alert-success" role="alert">
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                         </div>
+                    {% elif messages %}
+                         <div class="alert alert-danger" role="alert">
+                                <li>{{ messages[0] }}</li>
+                         </div>
+                    {% endif %}
+                {% endwith %}
+                {% block content %}{% endblock %}
             <div class="col-6">
                 <label for="inputLogin" class="font-weight-bold">Login</label>
                 {{ login.username(type='text', class='form-control', id='inputLogin') }}

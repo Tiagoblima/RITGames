@@ -78,6 +78,22 @@
         </div>
       </div>
       <div class="row text-center">
+          {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                        <div class="alert alert-success" role="alert">
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                         </div>
+                    {% elif messages %}
+                         <div class="alert alert-danger" role="alert">
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                         </div>
+                    {% endif %}
+          {% endwith %}
+                {% block content %}{% endblock %}
         <div class="col-md-3">
           <span class="fa-stack fa-4x">
             <i class="fa fa-user-plus" aria-hidden="true"></i>
@@ -471,7 +487,7 @@
             </button>
           </div>
           <div class="modal-body">
-              <iframe src="/login" height="150px" width="450px" style="border:0"></iframe>
+              <iframe src="/login" height="250px" width="450px" style="border:0"></iframe>
           </div>
         </div>
       </div>
