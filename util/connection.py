@@ -40,12 +40,12 @@ def do_login(username='', password=''):
 
 def add_game(game):
     print(game)
-    response = requests.post('https://rit-gameserver.herokuapp.com/games/add/', json=game)
+    response = requests.post('https://ritgameserver.herokuapp.com/games/add/', json=game)
     return json.loads(response.content)["msg"]
 
 
 def get_games_by_author(author):
-    response = requests.get('https://rit-gameserver.herokuapp.com/games/' + author)
+    response = requests.get('https://ritgameserver.herokuapp.com/games/' + author)
     print(response.content)
     try:
         return json.loads(response.content)
@@ -54,13 +54,13 @@ def get_games_by_author(author):
 
 
 def get_games():
-    response = requests.get('https://rit-gameserver.herokuapp.com/api/v1/game/getAll')
+    response = requests.get('https://ritgameserver.herokuapp.com/api/v1/game/getAll')
     print(response.content)
     return json.loads(response.content)
 
 
 def get_game(_id):
-    response = requests.get('https://rit-gameserver.herokuapp.com/games//api/v1//api/v1/game/' + _id)
+    response = requests.get('https://ritgameserver.herokuapp.com/games//api/v1//api/v1/game/' + _id)
     return response
 
 

@@ -23,23 +23,23 @@ def delete_cache():
             os.remove(os.path.join(CACHE_PATH, item))
 
 
-def format_games(dic):
+def format_games(games):
     games_dic = {}
 
-    for game, _id in zip(dic.values(), dic.keys()):
+    for game in games:
 
-        game['_id'] = str(_id)
+        game['_id'] = game["id"]
         try:
             inside = False
-            for row in games_dic[game['categoria']]:
+            for row in games_dic[game['category']]:
                 if len(row) <= 4:
                     row.append(game)
                     inside = True
 
             if not inside:
-                games_dic[game['categoria']].append([game])
+                games_dic[game['category']].append([game])
 
         except KeyError:
-            games_dic[game['categoria']] = [[game]]
+            games_dic[game['category']] = [[game]]
 
     return games_dic
