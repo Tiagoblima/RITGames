@@ -16,7 +16,7 @@ def save_user(form):
 
     print(response.status_code)
 
-    if response.status_code is 200:
+    if response.status_code == 200:
         return "Cadastro Realizado com sucesso!"
     else:
         return "Erro ao cadastrar tente novamente"
@@ -29,7 +29,7 @@ def do_login(username='', password=''):
     except FileNotFoundError:
         response = requests.get("https://rit-bd.herokuapp.com/conta/logar/" + username + '/' + password)
 
-        if response.status_code is 200:
+        if response.status_code == 200:
             try:
                 return True, json.loads(response.content)
             except json.decoder.JSONDecodeError:
@@ -48,20 +48,19 @@ def get_games_by_author(author):
     response = requests.get('https://rit-gameserver.herokuapp.com/games/' + author)
     print(response.content)
     try:
-
         return json.loads(response.content)
     except json.decoder.JSONDecodeError:
         return {"msg": "Erro ao carregar Dashboard"}
 
 
 def get_games():
-    response = requests.get('https://rit-gameserver.herokuapp.com/games/')
+    response = requests.get('https://rit-gameserver.herokuapp.com/api/v1/game/getAll')
     print(response.content)
     return json.loads(response.content)
 
 
 def get_game(_id):
-    response = requests.get('https://rit-gameserver.herokuapp.com/games/' + _id)
+    response = requests.get('https://rit-gameserver.herokuapp.com/games//api/v1//api/v1/game/' + _id)
     return response
 
 
@@ -69,7 +68,7 @@ def get_user(name):
     response = requests.get('https://rit-bd.herokuapp.com/conta/get-nome/' + name.replace(' ', '%20'))
     print(response.status_code)
     print(response.content)
-    if response.status_code is 200:
+    if response.status_code == 200:
         return json.loads(response.content)
 
     return {'msg': "Homepage unreachable"}
